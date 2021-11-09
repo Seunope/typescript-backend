@@ -1,10 +1,10 @@
 {
     "env": "development",
     "dbConfig": {
-        "host": "mysql",
+        "host": "127.0.0.1",
         "user": "root",
-        "password": "password",
-        "database": "sequelize",
+        "password": "",
+        "database": "korapay",
         "pool": {
             "min": 0,
             "max": 5

@@ -6,4 +6,13 @@ export class CreateUserDto {
 
   @IsString()
   public password: string;
+
+  @IsString()
+  public username: string;
+
+  @IsString()
+  public firstName: string;
+
+  @IsString()
+  public lastName: string;
 }

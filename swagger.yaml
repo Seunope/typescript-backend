@@ -110,6 +110,7 @@ definitions:
     required:
         - email
         - password
+        - username
     properties:
       id:
         type: integer
@@ -117,9 +118,18 @@ definitions:
       email:
         type: string
         description: user Email
+      username:
+        type: string
+        description: user Username
       password:
         type: string
         description: user Password
+      firstName:
+        type: string
+        description: user First name 
+      lastName:
+        type: string
+        description: user Last name
 
 schemes:
  - https
