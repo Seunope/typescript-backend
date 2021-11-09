@@ -1,6 +1,8 @@
 tags:
 - name: users
   description: users API
+- name: questions
+  description: questions API
 
 paths:
 # [GET] users
@@ -103,6 +105,19 @@ paths:
         500:
           description: 'Server Error'
 
+# [GET] questions
+  /questions:
+    get:
+      tags:
+      - questions
+      summary: Find All Users
+      responses:
+        200:
+          description: 'OK'
+        500:
+          description: 'Server Error'    
+            
+
 # definitions
 definitions:
   users:
@@ -134,3 +149,8 @@ definitions:
 schemes:
  - https
  - http
+
+
+
+
+

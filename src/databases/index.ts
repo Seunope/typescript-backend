@@ -12,7 +12,7 @@ const sequelize = new Sequelize.Sequelize(database, user, password, {
   define: {
     charset: 'utf8mb4',
     collate: 'utf8mb4_general_ci',
-    underscored: true,
+    //underscored: true,
     freezeTableName: true,
   },
   pool: {
@@ -30,6 +30,7 @@ sequelize.authenticate();
 
 const DB = {
   Users: UserModel(sequelize),
+  Questions: UserModel(sequelize),
   sequelize, // connection instance (RAW queries)
   Sequelize, // library
 };
