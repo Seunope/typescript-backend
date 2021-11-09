@@ -4,12 +4,12 @@ import { User } from '@interfaces/users.interface';
 export type UserCreationAttributes = Optional<User, 'id' | 'email' | 'password' | 'username'>;
 
 export class UserModel extends Model<User, UserCreationAttributes> implements User {
-  public username: string;
-  public lastName: string;
-  public firstName: string;
   public id: number;
   public email: string;
   public password: string;
+  public username: string;
+  public lastName: string;
+  public firstName: string;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
