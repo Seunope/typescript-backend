@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { CreateQuestionDto } from '@dtos/Questions.dto';
+import { CreateQuestionDto } from '@dtos/questions.dto';
 import { Question } from '@interfaces/questions.interface';
 import questionService from '@services/questions.service';
 

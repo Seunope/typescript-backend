@@ -25,11 +25,10 @@ class QuestionService {
   public async createQuestion(QuestionData: CreateQuestionDto): Promise<Question> {
     if (isEmpty(QuestionData)) throw new HttpException(400, "You're not QuestionData");
 
-    const findQuestion: Question = await this.questions.findOne({ where: { email: QuestionData.email } });
-    if (findQuestion) throw new HttpException(409, `You're email ${QuestionData.email} already exists`);
+    const findQuestion: Question = await this.questions.findOne({ where: { question: QuestionData.question } });
+    if (findQuestion) throw new HttpException(409, `You're questions is " ${QuestionData.question}" already exists`);
 
-    const hashedPassword = await bcrypt.hash(QuestionData.password, 10);
-    const createQuestionData: Question = await this.questions.create({ ...QuestionData, password: hashedPassword });
+    const createQuestionData: Question = await this.questions.create({ ...QuestionData });
     return createQuestionData;
   }
   public async updateQuestion(QuestionId: number, QuestionData: CreateQuestionDto): Promise<Question> {

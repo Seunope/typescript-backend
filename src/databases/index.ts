@@ -1,8 +1,9 @@
 import config from 'config';
 import Sequelize from 'sequelize';
-import { dbConfig } from '@interfaces/db.interface';
-import UserModel from '@models/users.model';
 import { logger } from '@utils/logger';
+import UserModel from '@models/users.model';
+import { dbConfig } from '@interfaces/db.interface';
+import QuestionModel from '@models/questions.model';
 
 const { host, user, password, database, pool }: dbConfig = config.get('dbConfig');
 const sequelize = new Sequelize.Sequelize(database, user, password, {
@@ -30,7 +31,7 @@ sequelize.authenticate();
 
 const DB = {
   Users: UserModel(sequelize),
-  Questions: UserModel(sequelize),
+  Questions: QuestionModel(sequelize),
   sequelize, // connection instance (RAW queries)
   Sequelize, // library
 };

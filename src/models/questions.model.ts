@@ -27,15 +27,15 @@ export default function (sequelize: Sequelize): typeof QuestionModel {
         type: DataTypes.STRING(45),
       },
       upVote: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
-      },
-      downVote: {
-        allowNull: false,
+        allowNull: true,
         type: DataTypes.INTEGER,
       },
       userId: {
         allowNull: false,
+        type: DataTypes.INTEGER,
+      },
+      downVote: {
+        allowNull: true,
         type: DataTypes.INTEGER,
       },
     },
