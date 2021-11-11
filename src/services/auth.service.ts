@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import config from 'config';
 import jwt from 'jsonwebtoken';
 import DB from '@databases';
-import { CreateUserDto } from '@dtos/users.dto';
+import { AuthUser, CreateUserDto } from '@dtos/users.dto';
 import { HttpException } from '@exceptions/HttpException';
 import { DataStoredInToken, TokenData } from '@interfaces/auth.interface';
 import { User } from '@interfaces/users.interface';
@@ -23,7 +23,7 @@ class AuthService {
     return createUserData;
   }
 
-  public async login(userData: CreateUserDto): Promise<{ cookie: string; findUser: User }> {
+  public async login(userData: AuthUser): Promise<{ cookie: any; findUser: User }> {
     if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
 
     const findUser: User = await this.users.findOne({ where: { email: userData.email } });
@@ -55,8 +55,11 @@ class AuthService {
     return { expiresIn, token: jwt.sign(dataStoredInToken, secretKey, { expiresIn }) };
   }
 
-  public createCookie(tokenData: TokenData): string {
-    return `Authorization=${tokenData.token}; HttpOnly; Max-Age=${tokenData.expiresIn};`;
+  public createCookie(tokenData: TokenData): any {
+    return {
+      headerToken: `Authorization=${tokenData.token}; HttpOnly; Max-Age=${tokenData.expiresIn};`,
+      token: tokenData.token,
+    };
   }
 }
 

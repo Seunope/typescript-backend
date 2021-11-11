@@ -16,3 +16,13 @@ export class CreateUserDto {
   @IsString()
   public lastName: string;
 }
+
+
+export class AuthUser {
+  @IsEmail()
+  public email: string;
+
+  @IsString()
+  public password: string;
+
+}
