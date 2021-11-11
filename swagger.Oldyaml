@@ -1,11 +1,3 @@
-openapi: 3.0.0    
-info:
-  version: 1.0.0
-  title: Slack Incoming Webhook
-externalDocs:
-  url: https://api.slack.com/incoming-webhooks
-servers:
-  - url: https://hooks.slack.com
 tags:
 - name: auth
   description: Authentication API
@@ -15,17 +7,20 @@ tags:
   description: questions API
 
 paths:
+
 # Login
   /auth/login:
     post:
       tags:
       - auth
       summary: Authenticate User
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/userLogin'
+      parameters:
+      - name: body
+        in: body
+        description: login Data
+        required: true
+        schema:
+          $ref: '#/definitions/userLogin'
       responses:
         201:
           description: 'Created'
@@ -41,12 +36,14 @@ paths:
     post:
       tags:
       - auth
-      summary: Authenticate User
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/users'
+      summary: Create Account
+      parameters:
+      - name: body
+        in: body
+        description: login Data
+        required: true
+        schema:
+          $ref: '#/definitions/users'
       responses:
         201:
           description: 'Created'
@@ -58,21 +55,20 @@ paths:
           description: 'Server Error' 
 
   /auth/logout:
-      post:
-        tags:
-        - auth
-        summary: log out User          
-        responses:
-          201:
-            description: 'Created'
-          400:
-            description: 'Bad Request'
-          409:
-            description: 'Conflict'
-          500:
-            description: 'Server Error'  
-
-  # [GET] users
+    post:
+      tags:
+      - auth
+      summary: Logout user session
+      responses:
+        201:
+          description: 'Created'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'        
+# [GET] users
   /users:
     get:
       tags:
@@ -83,8 +79,8 @@ paths:
           description: 'OK'
         500:
           description: 'Server Error'
-
-  # [GET] users/id
+          
+# [GET] users/id
   /users/{id}:
     get:
       tags:
@@ -104,7 +100,7 @@ paths:
         500:
           description: 'Server Error'
 
-    # [PUT] users/id
+# [PUT] users/id
     put:
       tags:
       - users
@@ -115,12 +111,12 @@ paths:
         description: user Id
         required: true
         type: integer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/users'
-     
+      - name: body
+        in: body
+        description: user Data
+        required: true
+        schema:
+          $ref: '#/definitions/users'
       responses:
         200:
           description: 'OK'
@@ -131,7 +127,7 @@ paths:
         500:
           description: 'Server Error'
 
-    # [DELETE] users/id
+# [DELETE] users/id
     delete:
       tags:
       - users
@@ -139,7 +135,7 @@ paths:
       parameters:
       - name: id
         in: path
-        description: questions Id
+        description: user Id
         required: true
         type: integer
       responses:
@@ -155,23 +151,25 @@ paths:
     get:
       tags:
       - questions
-      summary: Find All questions
+      summary: Find All Users
       responses:
         200:
           description: 'OK'
         500:
           description: 'Server Error'
+
+# post questions 
     post:
-      security:
-        - bearerAuth: []
       tags:
       - questions
-      summary: Post question
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/questions'
+      summary: Create question
+      parameters:
+      - name: body
+        in: body
+        description: question Data
+        required: true
+        schema:
+          $ref: '#/definitions/questions'
       responses:
         201:
           description: 'Created'
@@ -180,18 +178,18 @@ paths:
         409:
           description: 'Conflict'
         500:
-          description: 'Server Error'  
+          description: 'Server Error' 
 
-  # [GET] users/id
+# [GET] questions/id
   /questions/{id}:
     get:
       tags:
       - questions
-      summary: Find question By Id
+      summary: Find Questions By Id
       parameters:
       - name: id
         in: path
-        description: questions Id
+        description: User Id
         required: true
         type: integer
       responses:
@@ -202,23 +200,23 @@ paths:
         500:
           description: 'Server Error'
 
-    # [PUT] users/id
+# [PUT] questions/id
     put:
       tags:
       - questions
-      summary: Update questions By Id
+      summary: Update Question By Id
       parameters:
       - name: id
         in: path
-        description: questions Id
+        description: user Id
         required: true
         type: integer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/questions'
-     
+      - name: body
+        in: body
+        description: user Data
+        required: true
+        schema:
+          $ref: '#/definitions/questions'
       responses:
         200:
           description: 'OK'
@@ -229,11 +227,11 @@ paths:
         500:
           description: 'Server Error'
 
-    # [DELETE] users/id
+# [DELETE] questions/id
     delete:
       tags:
       - questions
-      summary: Delete questions By Id
+      summary: Delete Question By Id
       parameters:
       - name: id
         in: path
@@ -246,66 +244,71 @@ paths:
         409:
           description: 'Conflict'
         500:
-          description: 'Server Error'
-components:
-  securitySchemes:
-    bearerAuth:            # arbitrary name for the security scheme
-      type: http
-      scheme: bearer
-      bearerFormat: JWT   
-  schemas:
-    userLogin:
-      title: Login data
-      type: object
-      properties:
-        email:
-          type: string
-          description: user Email
-        password:
-          type: string
-          description: user password
-      required:
-          - email
-          - password
-    users:
-      title: User data
-      type: object
-      required:
-          - email
-          - password
-          - username
-      properties:
-        email:
-          type: string
-          description: user Email
-        username:
-          type: string
-          description: user Username
-        password:
-          type: string
-          description: user Password
-        firstName:
-          type: string
-          description: user First name 
-        lastName:
-          type: string
-          description: user Last name
-    questions:
-      title: question data
-      type: object
-      required:
-          - question
-          - userId
-      properties:
-        question:
-          type: string
-          description: question Question
-        upVote:
-          type: integer
-          description: user upVote
-        downVote:
-          type: integer
-          description: user downVote
-        userId:
-          type: integer
-          description: user userID 
+          description: 'Server Error'  
+            
+
+# definitions
+definitions:
+  users:
+    type: object
+    required:
+        - email
+        - password
+        - username
+    properties:
+      email:
+        type: string
+        description: user Email
+      username:
+        type: string
+        description: user Username
+      password:
+        type: string
+        description: user Password
+      firstName:
+        type: string
+        description: user First name 
+      lastName:
+        type: string
+        description: user Last name
+    
+  userLogin:
+    type: object
+    required:
+        - email
+        - password
+    properties:
+      email:
+        type: string
+        description: user Email
+      password:
+        type: string
+        description: user password
+
+  questions:
+    type: object
+    required:
+        - question
+        - userId
+    properties:
+      question:
+        type: string
+        description: question Question
+      upVote:
+        type: integer
+        description: user upVote
+      downVote:
+        type: integer
+        description: user downVote
+      userId:
+        type: integer
+        description: user userID 
+
+schemes:
+ - https
+ - http
+
+
+
+
+
