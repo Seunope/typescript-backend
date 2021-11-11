@@ -1,11 +1,11 @@
 openapi: 3.0.0    
 info:
   version: 1.0.0
-  title: Slack Incoming Webhook
+  title: Korapay Incoming Webhook
 externalDocs:
-  url: https://api.slack.com/incoming-webhooks
+  url: https://api.korapay.com/incoming-webhooks
 servers:
-  - url: https://hooks.slack.com
+  - url: https://hooks.korapay.com
 tags:
 - name: auth
   description: Authentication API
