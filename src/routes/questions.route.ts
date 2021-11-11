@@ -16,7 +16,7 @@ class QuestionsRoute implements Routes {
 
   private initializeRoutes() {
     this.router.get(`${this.path}`, this.questionsController.getQuestions);
-    this.router.get(`${this.path}/:id(\\d+)`, authMiddleware, this.questionsController.getQuestionById);
+    this.router.get(`${this.path}/:id(\\d+)`, this.questionsController.getQuestionById);
     this.router.post(`${this.path}`, authMiddleware, validationMiddleware(CreateQuestionDto, 'body'), this.questionsController.createQuestion);
     this.router.put(
       `${this.path}/:id(\\d+)`,

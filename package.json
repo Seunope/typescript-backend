@@ -12,6 +12,11 @@
     "lint": "eslint --ignore-path .gitignore --ext .ts src/",
     "lint:fix": "npm run lint -- --fix",
     "deploy:prod": "npm run build && pm2 start ecosystem.config.js --only prod",
+    "migrate": "sequelize db:migrate",
+    "migrate:u": "sequelize db:migrate:undo",
+    "migrate:u:a": "sequelize db:migrate:undo:all",
+    "model": "sequelize model:generate --name",
+    "migration": "sequelize migration:create --name",
     "deploy:dev": "pm2 start ecosystem.config.js --only dev"
   },
   "dependencies": {

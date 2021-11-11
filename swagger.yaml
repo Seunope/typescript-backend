@@ -13,6 +13,8 @@ tags:
   description: users API
 - name: questions
   description: questions API
+- name: reply
+  description: reply question API
 
 paths:
 # Login
@@ -247,6 +249,104 @@ paths:
           description: 'Conflict'
         500:
           description: 'Server Error'
+
+ # [GET] reply
+  /reply:
+    get:
+      tags:
+      - reply
+      summary: Find All reply
+      responses:
+        200:
+          description: 'OK'
+        500:
+          description: 'Server Error'
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+      - reply
+      summary: Post reply
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/reply'
+      responses:
+        201:
+          description: 'Created'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'  
+
+  # [GET] reply/id
+  /reply/{id}:
+    get:
+      tags:
+      - reply
+      summary: Find reply By Id
+      parameters:
+      - name: id
+        in: path
+        description: reply Id
+        required: true
+        type: integer
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+    # [PUT] reply/id
+    put:
+      tags:
+      - reply
+      summary: Update reply By Id
+      parameters:
+      - name: id
+        in: path
+        description: reply Id
+        required: true
+        type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/reply'
+     
+      responses:
+        200:
+          description: 'OK'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+    # [DELETE] reply/id
+    delete:
+      tags:
+      - reply
+      summary: Delete reply By Id
+      parameters:
+      - name: id
+        in: path
+        description: user Id
+        required: true
+        type: integer
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'         
 components:
   securitySchemes:
     bearerAuth:            # arbitrary name for the security scheme
@@ -295,7 +395,6 @@ components:
       type: object
       required:
           - question
-          - userId
       properties:
         question:
           type: string
@@ -306,6 +405,19 @@ components:
         downVote:
           type: integer
           description: user downVote
-        userId:
+    
+    reply:
+      title: reply data
+      type: object
+      required:
+          - reply
+          - questionId
+      properties:
+        reply:
+          type: string
+          description: reply Question
+        questionId:
           type: integer
-          description: user userID 
+          description: Question
+           
+     
