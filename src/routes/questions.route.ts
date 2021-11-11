@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import QuestionsController from '@controllers/questions.controller';
-import { CreateQuestionDto } from '@dtos/Questions.dto';
+import { CreateQuestionDto } from '@dtos/questions.dto';
 import { Routes } from '@interfaces/routes.interface';
 import validationMiddleware from '@middlewares/validation.middleware';
 

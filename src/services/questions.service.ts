@@ -1,4 +1,3 @@
-import bcrypt from 'bcrypt';
 import DB from '@databases';
 import { CreateQuestionDto } from '@dtos/questions.dto';
 import { HttpException } from '@exceptions/HttpException';
@@ -37,8 +36,7 @@ class QuestionService {
     const findQuestion: Question = await this.questions.findByPk(QuestionId);
     if (!findQuestion) throw new HttpException(409, "You're not Question");
 
-    const hashedPassword = await bcrypt.hash(QuestionData.password, 10);
-    await this.questions.update({ ...QuestionData, password: hashedPassword }, { where: { id: QuestionId } });
+    await this.questions.update({ ...QuestionData }, { where: { id: QuestionId } });
 
     const updateQuestion: Question = await this.questions.findByPk(QuestionId);
     return updateQuestion;
