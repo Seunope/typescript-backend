@@ -1,0 +1,22 @@
+{
+    "env": "development",
+    "dbConfig": {
+        "host": "127.0.0.1",
+        "user": "root",
+        "password": "",
+        "database": "korapay",
+        "pool": {
+            "min": 0,
+            "max": 5
+        }
+    },
+    "secretKey": "secretKey",
+    "log": {
+        "format": "dev",
+        "dir": "../logs"
+    },
+    "cors": {
+        "origin": true,
+        "credentials": true
+    }
+}
