@@ -2,6 +2,7 @@ import config from 'config';
 import Sequelize from 'sequelize';
 import { logger } from '@utils/logger';
 import UserModel from '@models/users.model';
+import RatingModel from '@models/ratings.model';
 import ReplyModel from '@models/replies.model';
 import { dbConfig } from '@interfaces/db.interface';
 import QuestionModel from '@models/questions.model';
@@ -32,6 +33,7 @@ sequelize.authenticate();
 
 const DB = {
   Users: UserModel(sequelize),
+  Ratings: RatingModel(sequelize),
   Replies: ReplyModel(sequelize),
   Questions: QuestionModel(sequelize),
   sequelize, // connection instance (RAW queries)
