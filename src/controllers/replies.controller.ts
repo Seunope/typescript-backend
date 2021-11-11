@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { CreateReplyDto } from '@dtos/replies.dto';
+import { CreateReplyDto, UpdateReplyDto } from '@dtos/replies.dto';
 import { Reply } from '@interfaces/replies.interface';
 import replyService from '@services/replies.service';
 
@@ -29,11 +29,11 @@ class ReplysController {
 
   public createReply = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      //const userId = req.user.id;
+      const userId = req.user.id;
 
       req.body.upVote = 0;
       req.body.downVote = 0;
-      req.body.userId = 2;
+      req.body.userId = userId;
 
       const ReplyData: CreateReplyDto = req.body;
       const createReplyData: Reply = await this.replyService.createReply(ReplyData);
@@ -47,7 +47,7 @@ class ReplysController {
   public updateReply = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const ReplyId = Number(req.params.id);
-      const ReplyData: CreateReplyDto = req.body;
+      const ReplyData: UpdateReplyDto = req.body;
       const updateReplyData: Reply = await this.replyService.updateReply(ReplyId, ReplyData);
 
       res.status(200).json({ data: updateReplyData, message: 'updated' });

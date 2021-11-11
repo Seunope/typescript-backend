@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { CreateQuestionDto } from '@dtos/questions.dto';
+import { CreateQuestionDto, SetQuestionDto } from '@dtos/questions.dto';
 import { Question } from '@interfaces/questions.interface';
 import questionService from '@services/questions.service';
 
@@ -46,7 +46,7 @@ class QuestionsController {
   public updateQuestion = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const QuestionId = Number(req.params.id);
-      const QuestionData: CreateQuestionDto = req.body;
+      const QuestionData: SetQuestionDto = req.body;
       const updateQuestionData: Question = await this.questionService.updateQuestion(QuestionId, QuestionData);
 
       res.status(200).json({ data: updateQuestionData, message: 'updated' });

@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt';
 import DB from '@databases';
 import { isEmpty } from '@utils/util';
-import { CreateUserDto } from '@dtos/users.dto';
 import { User } from '@interfaces/users.interface';
 import { HttpException } from '@exceptions/HttpException';
+import { CreateUserDto, UpdateUserDto } from '@dtos/users.dto';
 
 class UserService {
   public users = DB.Users;
@@ -33,21 +33,28 @@ class UserService {
     return createUserData;
   }
 
-  public async updateUser(userId: number, userData: CreateUserDto): Promise<User> {
+  public async updateUser(userReqId: number, userId: number, userData: UpdateUserDto): Promise<User> {
     if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
+
+    if (userReqId !== userId) {
+      throw new HttpException(402, "You're not the owner of this account");
+    }
 
     const findUser: User = await this.users.findByPk(userId);
     if (!findUser) throw new HttpException(409, "You're not user");
 
-    const hashedPassword = await bcrypt.hash(userData.password, 10);
-    await this.users.update({ ...userData, password: hashedPassword }, { where: { id: userId } });
+    await this.users.update({ ...userData }, { where: { id: userId } });
 
     const updateUser: User = await this.users.findByPk(userId);
     return updateUser;
   }
 
-  public async deleteUser(userId: number): Promise<User> {
+  public async deleteUser(userReqId: number, userId: number): Promise<User> {
     if (isEmpty(userId)) throw new HttpException(400, "You're not userId");
+
+    if (userReqId !== userId) {
+      throw new HttpException(402, 'Action failed! You are not the owner of this account');
+    }
 
     const findUser: User = await this.users.findByPk(userId);
     if (!findUser) throw new HttpException(409, "You're not user");

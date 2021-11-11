@@ -30,3 +30,12 @@ export class CreateDataReplyDto {
   @Type(() => Number)
   public questionId: number;
 }
+
+export class UpdateReplyDto {
+  @IsString()
+  public reply: string;
+
+  @IsNumber()
+  @Type(() => Number)
+  public id: number;
+}

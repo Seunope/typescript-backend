@@ -19,3 +19,8 @@ export class CreateQuestionDto {
   @Type(() => Number)
   public userId: number;
 }
+
+export class SetQuestionDto {
+  @IsString()
+  public question: string;
+}

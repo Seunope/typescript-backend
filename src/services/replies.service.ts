@@ -1,11 +1,13 @@
+import { Question } from '@/interfaces/questions.interface';
 import DB from '@databases';
-import { CreateReplyDto } from '@dtos/replies.dto';
+import { CreateReplyDto, UpdateReplyDto } from '@dtos/replies.dto';
 import { HttpException } from '@exceptions/HttpException';
 import { Reply } from '@interfaces/replies.interface';
 import { isEmpty } from '@utils/util';
 
 class ReplyService {
   public reply = DB.Replies;
+  public question = DB.Questions;
 
   public async findAllReply(): Promise<Reply[]> {
     const allReply: Reply[] = await this.reply.findAll();
@@ -24,17 +26,20 @@ class ReplyService {
   public async createReply(ReplyData: CreateReplyDto): Promise<Reply> {
     if (isEmpty(ReplyData)) throw new HttpException(400, "You're not ReplyData");
 
-    const findReply: Reply = await this.reply.findOne({ where: { reply: ReplyData.reply } });
+    const findQuestion: Question = await this.question.findOne({ where: { id: ReplyData.questionId } });
+    if (!findQuestion) throw new HttpException(409, `Question ID: " ${ReplyData.questionId}" is not value`);
+
+    const findReply: Reply = await this.reply.findOne({ where: { reply: ReplyData.reply, questionId: ReplyData.questionId } });
     if (findReply) throw new HttpException(409, `You're reply is " ${ReplyData.reply}" already exists`);
 
     const createReplyData: Reply = await this.reply.create({ ...ReplyData });
     return createReplyData;
   }
-  public async updateReply(ReplyId: number, ReplyData: CreateReplyDto): Promise<Reply> {
+  public async updateReply(ReplyId: number, ReplyData: UpdateReplyDto): Promise<Reply> {
     if (isEmpty(ReplyData)) throw new HttpException(400, "You're not ReplyData");
 
     const findReply: Reply = await this.reply.findByPk(ReplyId);
-    if (!findReply) throw new HttpException(409, "You're not Reply");
+    if (!findReply) throw new HttpException(409, ' Reply ID not found');
 
     await this.reply.update({ ...ReplyData }, { where: { id: ReplyId } });
 
@@ -43,10 +48,10 @@ class ReplyService {
   }
 
   public async deleteReply(ReplyId: number): Promise<Reply> {
-    if (isEmpty(ReplyId)) throw new HttpException(400, "You're not ReplyId");
+    if (isEmpty(ReplyId)) throw new HttpException(400, 'ReplyId not found');
 
     const findReply: Reply = await this.reply.findByPk(ReplyId);
-    if (!findReply) throw new HttpException(409, "You're not Reply");
+    if (!findReply) throw new HttpException(409, 'Reply not found');
 
     await this.reply.destroy({ where: { id: ReplyId } });
 

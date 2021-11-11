@@ -40,9 +40,10 @@ class UsersController {
 
   public updateUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
+      const userReqId = req.user.id;
       const userId = Number(req.params.id);
       const userData: CreateUserDto = req.body;
-      const updateUserData: User = await this.userService.updateUser(userId, userData);
+      const updateUserData: User = await this.userService.updateUser(userReqId, userId, userData);
 
       res.status(200).json({ data: updateUserData, message: 'updated' });
     } catch (error) {
@@ -52,8 +53,9 @@ class UsersController {
 
   public deleteUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
+      const userReqId = req.user.id;
       const userId = Number(req.params.id);
-      const deleteUserData: User = await this.userService.deleteUser(userId);
+      const deleteUserData: User = await this.userService.deleteUser(userReqId, userId);
 
       res.status(200).json({ data: deleteUserData, message: 'deleted' });
     } catch (error) {

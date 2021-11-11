@@ -110,6 +110,8 @@ paths:
 
     # [PUT] users/id
     put:
+      security:
+        - bearerAuth: []
       tags:
       - users
       summary: Update User By Id
@@ -123,7 +125,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/users'
+              $ref: '#/components/schemas/userUpdate'
      
       responses:
         200:
@@ -137,6 +139,8 @@ paths:
 
     # [DELETE] users/id
     delete:
+      security:
+        - bearerAuth: []
       tags:
       - users
       summary: Delete User By Id
@@ -208,6 +212,8 @@ paths:
 
     # [PUT] users/id
     put:
+      security:
+        - bearerAuth: []
       tags:
       - questions
       summary: Update questions By Id
@@ -233,8 +239,10 @@ paths:
         500:
           description: 'Server Error'
 
-    # [DELETE] users/id
+    # [DELETE] question/id
     delete:
+      security:
+        - bearerAuth: []
       tags:
       - questions
       summary: Delete questions By Id
@@ -305,6 +313,8 @@ paths:
 
     # [PUT] reply/id
     put:
+      security:
+        - bearerAuth: []
       tags:
       - reply
       summary: Update reply By Id
@@ -318,7 +328,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/reply'
+              $ref: '#/components/schemas/replyUpdate'
      
       responses:
         200:
@@ -491,6 +501,20 @@ components:
         lastName:
           type: string
           description: user Last name
+
+    userUpdate:
+      title: User data
+      type: object
+      properties:
+        username:
+          type: string
+          description: user Username
+        firstName:
+          type: string
+          description: user First name 
+        lastName:
+          type: string
+          description: user Last name
     questions:
       title: question data
       type: object
@@ -500,12 +524,6 @@ components:
         question:
           type: string
           description: question Question
-        upVote:
-          type: integer
-          description: user upVote
-        downVote:
-          type: integer
-          description: user downVote
     
     reply:
       title: reply data
@@ -520,7 +538,16 @@ components:
         questionId:
           type: integer
           description: Question
-    
+      
+    replyUpdate:
+      title: reply update data
+      type: object
+      required:
+          - reply
+      properties:
+        reply:
+          type: string
+          description: reply Question  
 
     ratings:
       title: rating data
