@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import { Sequelize } from 'sequelize';
 import request from 'supertest';
 import App from '@/app';
-import { CreateUserDto } from '@dtos/users.dto';
+import { AuthUser, CreateUserDto } from '@dtos/users.dto';
 import AuthRoute from '@routes/auth.route';
 
 afterAll(async () => {
@@ -15,6 +15,9 @@ describe('Testing Auth', () => {
       const userData: CreateUserDto = {
         email: 'test@email.com',
         password: 'q1w2e3r4!',
+        username: ' tolu007',
+        firstName: 'Ope',
+        lastName: 'Doe',
       };
 
       const authRoute = new AuthRoute();
@@ -24,18 +27,21 @@ describe('Testing Auth', () => {
       users.create = jest.fn().mockReturnValue({
         id: 1,
         email: userData.email,
+        username: userData.username,
+        lastName: userData.lastName,
+        firstName: userData.firstName,
         password: await bcrypt.hash(userData.password, 10),
       });
 
       (Sequelize as any).authenticate = jest.fn();
       const app = new App([authRoute]);
-      return request(app.getServer()).post(`${authRoute.path}signup`).send(userData).expect(201);
+      return request(app.getServer()).post(`${authRoute.path}/signup`).send(userData).expect(201);
     });
   });
 
   describe('[POST] /login', () => {
     it('response should have the Set-Cookie header with the Authorization token', async () => {
-      const userData: CreateUserDto = {
+      const userData: AuthUser = {
         email: 'test@email.com',
         password: 'q1w2e3r4!',
       };
@@ -52,7 +58,7 @@ describe('Testing Auth', () => {
       (Sequelize as any).authenticate = jest.fn();
       const app = new App([authRoute]);
       return request(app.getServer())
-        .post(`${authRoute.path}login`)
+        .post(`${authRoute.path}/login`)
         .send(userData)
         .expect('Set-Cookie', /^Authorization=.+/);
     });

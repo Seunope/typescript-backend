@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt';
 import DB from '@databases';
-import { CreateUserDto } from '@dtos/users.dto';
-import { HttpException } from '@exceptions/HttpException';
-import { User } from '@interfaces/users.interface';
 import { isEmpty } from '@utils/util';
+import { CreateUserDto } from '@dtos/users.dto';
+import { User } from '@interfaces/users.interface';
+import { HttpException } from '@exceptions/HttpException';
 
 class UserService {
   public users = DB.Users;

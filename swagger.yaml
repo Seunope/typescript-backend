@@ -1,11 +1,82 @@
+openapi: 3.0.0    
+info:
+  version: 1.0.0
+  title: Korapay Incoming Webhook
+externalDocs:
+  url: https://api.korapay.com/incoming-webhooks
+servers:
+  - url: https://hooks.korapay.com
 tags:
+- name: auth
+  description: Authentication API
 - name: users
   description: users API
 - name: questions
   description: questions API
+- name: reply
+  description: reply question API
+- name: ratings
+  description: ratings question API
 
 paths:
-# [GET] users
+# Login
+  /auth/login:
+    post:
+      tags:
+      - auth
+      summary: Authenticate User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userLogin'
+      responses:
+        201:
+          description: 'Created'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'  
+
+  # sign up
+  /auth/signup:
+    post:
+      tags:
+      - auth
+      summary: Authenticate User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/users'
+      responses:
+        201:
+          description: 'Created'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error' 
+
+  /auth/logout:
+      post:
+        tags:
+        - auth
+        summary: log out User          
+        responses:
+          201:
+            description: 'Created'
+          400:
+            description: 'Bad Request'
+          409:
+            description: 'Conflict'
+          500:
+            description: 'Server Error'  
+
+  # [GET] users
   /users:
     get:
       tags:
@@ -17,29 +88,7 @@ paths:
         500:
           description: 'Server Error'
 
-# [POST] users
-    post:
-      tags:
-      - users
-      summary: Add User
-      parameters:
-      - name: body
-        in: body
-        description: user Data
-        required: true
-        schema:
-          $ref: '#/definitions/users'
-      responses:
-        201:
-          description: 'Created'
-        400:
-          description: 'Bad Request'
-        409:
-          description: 'Conflict'
-        500:
-          description: 'Server Error'
-
-# [GET] users/id
+  # [GET] users/id
   /users/{id}:
     get:
       tags:
@@ -59,7 +108,7 @@ paths:
         500:
           description: 'Server Error'
 
-# [PUT] users/id
+    # [PUT] users/id
     put:
       tags:
       - users
@@ -70,12 +119,12 @@ paths:
         description: user Id
         required: true
         type: integer
-      - name: body
-        in: body
-        description: user Data
-        required: true
-        schema:
-          $ref: '#/definitions/users'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/users'
+     
       responses:
         200:
           description: 'OK'
@@ -86,7 +135,7 @@ paths:
         500:
           description: 'Server Error'
 
-# [DELETE] users/id
+    # [DELETE] users/id
     delete:
       tags:
       - users
@@ -94,7 +143,7 @@ paths:
       parameters:
       - name: id
         in: path
-        description: user Id
+        description: questions Id
         required: true
         type: integer
       responses:
@@ -110,25 +159,23 @@ paths:
     get:
       tags:
       - questions
-      summary: Find All Questions
+      summary: Find All questions
       responses:
         200:
           description: 'OK'
         500:
-          description: 'Server Error'  
-
-  # [POST] questions
+          description: 'Server Error'
     post:
+      security:
+        - bearerAuth: []
       tags:
       - questions
-      summary: Add Questions
-      parameters:
-      - name: body
-        in: body
-        description: questions Data
-        required: true
-        schema:
-          $ref: '#/definitions/questions'
+      summary: Post question
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/questions'
       responses:
         201:
           description: 'Created'
@@ -137,18 +184,18 @@ paths:
         409:
           description: 'Conflict'
         500:
-          description: 'Server Error'
+          description: 'Server Error'  
 
-# [GET] questions/id
+  # [GET] users/id
   /questions/{id}:
     get:
       tags:
-      - users
-      summary: Find Questions By Id
+      - questions
+      summary: Find question By Id
       parameters:
       - name: id
         in: path
-        description: User Id
+        description: questions Id
         required: true
         type: integer
       responses:
@@ -159,23 +206,23 @@ paths:
         500:
           description: 'Server Error'
 
-# [PUT] questions/id
+    # [PUT] users/id
     put:
       tags:
       - questions
-      summary: Update Question By Id
+      summary: Update questions By Id
       parameters:
       - name: id
         in: path
-        description: user Id
+        description: questions Id
         required: true
         type: integer
-      - name: body
-        in: body
-        description: user Data
-        required: true
-        schema:
-          $ref: '#/definitions/questions'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/questions'
+     
       responses:
         200:
           description: 'OK'
@@ -186,11 +233,11 @@ paths:
         500:
           description: 'Server Error'
 
-# [DELETE] questions/id
+    # [DELETE] users/id
     delete:
       tags:
       - questions
-      summary: Delete Question By Id
+      summary: Delete questions By Id
       parameters:
       - name: id
         in: path
@@ -203,63 +250,295 @@ paths:
         409:
           description: 'Conflict'
         500:
+          description: 'Server Error'
+
+ # [GET] reply
+  /reply:
+    get:
+      tags:
+      - reply
+      summary: Find All reply
+      responses:
+        200:
+          description: 'OK'
+        500:
+          description: 'Server Error'
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+      - reply
+      summary: Post reply
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/reply'
+      responses:
+        201:
+          description: 'Created'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
           description: 'Server Error'  
-            
-
-# definitions
-definitions:
-  users:
-    type: object
-    required:
-        - email
-        - password
-        - username
-    properties:
-      id:
+  # [GET] ratings/id
+  /reply/{id}:
+    get:
+      tags:
+      - reply
+      summary: Find reply By Id
+      parameters:
+      - name: id
+        in: path
+        description: reply Id
+        required: true
         type: integer
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+    # [PUT] reply/id
+    put:
+      tags:
+      - reply
+      summary: Update reply By Id
+      parameters:
+      - name: id
+        in: path
+        description: reply Id
+        required: true
+        type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/reply'
+     
+      responses:
+        200:
+          description: 'OK'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+    # [DELETE] reply/id
+    delete:
+      tags:
+      - reply
+      summary: Delete reply By Id
+      parameters:
+      - name: id
+        in: path
         description: user Id
-      email:
-        type: string
-        description: user Email
-      username:
-        type: string
-        description: user Username
-      password:
-        type: string
-        description: user Password
-      firstName:
-        type: string
-        description: user First name 
-      lastName:
-        type: string
-        description: user Last name
-  questions:
-    type: object
-    required:
-        - question
-        - userId
-    properties:
-      id:
+        required: true
         type: integer
-        description: question Id
-      question:
-        type: string
-        description: question Question
-      upVote:
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'     
+  
+# [GET] ratings
+  /ratings:
+    get:
+      tags:
+      - ratings
+      summary: Find All reply
+      responses:
+        200:
+          description: 'OK'
+        500:
+          description: 'Server Error'
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+      - ratings
+      summary: Post reply
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ratings'
+      responses:
+        201:
+          description: 'Created'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'  
+
+  # [GET] ratings/id
+  /ratings/{id}:
+    get:
+      tags:
+      - ratings
+      summary: Find reply By Id
+      parameters:
+      - name: id
+        in: path
+        description: reply Id
+        required: true
         type: integer
-        description: user upVote
-      downVote:
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+    # [PUT] ratings/id
+    put:
+      tags:
+      - ratings
+      summary: Update reply By Id
+      parameters:
+      - name: id
+        in: path
+        description: reply Id
+        required: true
         type: integer
-        description: user downVote
-      userId:
-        type: string
-        description: user userID 
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/reply'
+     
+      responses:
+        200:
+          description: 'OK'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
 
-schemes:
- - https
- - http
+    # [DELETE] ratings/id
+    delete:
+      tags:
+      - ratings
+      summary: Delete reply By Id
+      parameters:
+      - name: id
+        in: path
+        description: user Id
+        required: true
+        type: integer
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error' 
 
+      
+components:
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT   
+  schemas:
+    userLogin:
+      title: Login data
+      type: object
+      properties:
+        email:
+          type: string
+          description: user Email
+        password:
+          type: string
+          description: user password
+      required:
+          - email
+          - password
+    users:
+      title: User data
+      type: object
+      required:
+          - email
+          - password
+          - username
+      properties:
+        email:
+          type: string
+          description: user Email
+        username:
+          type: string
+          description: user Username
+        password:
+          type: string
+          description: user Password
+        firstName:
+          type: string
+          description: user First name 
+        lastName:
+          type: string
+          description: user Last name
+    questions:
+      title: question data
+      type: object
+      required:
+          - question
+      properties:
+        question:
+          type: string
+          description: question Question
+        upVote:
+          type: integer
+          description: user upVote
+        downVote:
+          type: integer
+          description: user downVote
+    
+    reply:
+      title: reply data
+      type: object
+      required:
+          - reply
+          - questionId
+      properties:
+        reply:
+          type: string
+          description: reply Question
+        questionId:
+          type: integer
+          description: Question
+    
 
-
-
-
+    ratings:
+      title: rating data
+      type: object
+      required:
+          - ratings
+      properties:
+        type:
+          type: string
+          description: question or reply
+        upVote:
+          type: boolean
+          description: user upVote
+        downVote:
+          type: boolean
+          description: user downVote
+        modelId:
+          type: integer
+          description: question or reply id
+           
+     

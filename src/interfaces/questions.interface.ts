@@ -1,7 +1,7 @@
 export interface Question {
   id: number;
-  question: string;
-  upVote: number;
-  downVote: number;
   userId: number;
+  upVote: number;
+  question: string;
+  downVote: number;
 }

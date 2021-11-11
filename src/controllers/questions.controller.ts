@@ -29,6 +29,11 @@ class QuestionsController {
 
   public createQuestion = async (req: Request, res: Response, next: NextFunction) => {
     try {
+      const userId = req.user.id;
+
+      req.body.upVote = 0;
+      req.body.downVote = 0;
+      req.body.userId = userId;
       const QuestionData: CreateQuestionDto = req.body;
       const createQuestionData: Question = await this.questionService.createQuestion(QuestionData);
 
