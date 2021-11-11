@@ -1,3 +1,5 @@
+
+
 tags:
 - name: auth
   description: Authentication API
@@ -79,7 +81,7 @@ paths:
           description: 'OK'
         500:
           description: 'Server Error'
-
+          
 # [GET] users/id
   /users/{id}:
     get:
@@ -145,6 +147,40 @@ paths:
           description: 'Conflict'
         500:
           description: 'Server Error'
+
+# [GET] questions
+  /questions:
+    get:
+      tags:
+      - questions
+      summary: Find All Users
+      responses:
+        200:
+          description: 'OK'
+        500:
+          description: 'Server Error'
+
+# post questions 
+    post:
+      tags:
+      - questions
+      summary: Create question
+      parameters:
+      - name: body
+        in: body
+        description: question Data
+        required: true
+        schema:
+          $ref: '#/definitions/questions'
+      responses:
+        201:
+          description: 'Created'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error' 
 
 # [GET] questions/id
   /questions/{id}:
@@ -257,9 +293,6 @@ definitions:
         - question
         - userId
     properties:
-      id:
-        type: integer
-        description: question Id
       question:
         type: string
         description: question Question
@@ -270,7 +303,7 @@ definitions:
         type: integer
         description: user downVote
       userId:
-        type: string
+        type: integer
         description: user userID 
 
 schemes:

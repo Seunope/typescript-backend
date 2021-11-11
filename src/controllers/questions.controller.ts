@@ -29,6 +29,7 @@ class QuestionsController {
 
   public createQuestion = async (req: Request, res: Response, next: NextFunction) => {
     try {
+      console.log('ree',req.cookies);
       const QuestionData: CreateQuestionDto = req.body;
       const createQuestionData: Question = await this.questionService.createQuestion(QuestionData);
 
