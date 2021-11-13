@@ -3,6 +3,9 @@ import request from 'supertest';
 import App from '@/app';
 import { SetQuestionDto } from '@dtos/questions.dto';
 import QuestionRoute from '@routes/questions.route';
+import { config } from 'dotenv';
+
+config();
 
 afterAll(async () => {
   await new Promise<void>(resolve => setTimeout(() => resolve(), 500));
@@ -84,12 +87,9 @@ describe('Testing Questions', () => {
       const app = new App([questionsRoute]);
       return request(app.getServer())
         .post(`${questionsRoute.path}`)
+        .set('Authorization', `Bearer ${process.env.TEST_TOKEN}`)
         .send(questionData)
-        .expect(201)
-        .set(
-          'authorization',
-          `bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjM2ODE1OTA4LCJleHAiOjE2MzY4MTk1MDh9.T9h2oKvaa8Z2PbNWClsHIneAKUNjbeq3olyARB477E4`,
-        );
+        .expect(201);
     });
   });
 
@@ -113,9 +113,14 @@ describe('Testing Questions', () => {
         question: 'question Data email',
       });
 
+      console.log('enk', process.env.TEST_TOKEN);
       (Sequelize as any).authenticate = jest.fn();
       const app = new App([questionsRoute]);
-      return request(app.getServer()).put(`${questionsRoute.path}/${questionId}`).send(questionData).expect(200);
+      return request(app.getServer())
+        .put(`${questionsRoute.path}/${questionId}`)
+        .set('Authorization', `Bearer ${process.env.TEST_TOKEN}`)
+        .send(questionData)
+        .expect(200);
     });
   });
 
@@ -133,7 +138,10 @@ describe('Testing Questions', () => {
 
       (Sequelize as any).authenticate = jest.fn();
       const app = new App([questionsRoute]);
-      return request(app.getServer()).delete(`${questionsRoute.path}/${questionId}`).expect(200);
+      return request(app.getServer())
+        .delete(`${questionsRoute.path}/${questionId}`)
+        .set('Authorization', `Bearer ${process.env.TEST_TOKEN}`)
+        .expect(200);
     });
   });
 });

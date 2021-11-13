@@ -3,6 +3,9 @@ import request from 'supertest';
 import App from '@/app';
 import { CreateRating2Dto, UpdateRatingDto } from '@dtos/ratings.dto';
 import RatingRoute from '@routes/ratings.route';
+import { config } from 'dotenv';
+
+config();
 
 afterAll(async () => {
   await new Promise<void>(resolve => setTimeout(() => resolve(), 500));
@@ -86,10 +89,7 @@ describe('Testing Ratings', () => {
       return request(app.getServer())
         .post(`${ratingsRoute.path}`)
         .send(ratingData)
-        .set(
-          'authorization',
-          `bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjM2ODE1OTA4LCJleHAiOjE2MzY4MTk1MDh9.T9h2oKvaa8Z2PbNWClsHIneAKUNjbeq3olyARB477E4`,
-        )
+        .set('Authorization', `Bearer ${process.env.TEST_TOKEN}`)
         .expect(201);
     });
   });
@@ -116,7 +116,7 @@ describe('Testing Ratings', () => {
 
       (Sequelize as any).authenticate = jest.fn();
       const app = new App([ratingsRoute]);
-      return request(app.getServer()).put(`${ratingsRoute.path}/${ratingId}`).send(ratingData).expect(200);
+      return request(app.getServer()).put(`${ratingsRoute.path}/${ratingId}`).set('Authorization', `Bearer ${process.env.TEST_TOKEN}`).send(ratingData).expect(200);
     });
   });
 
@@ -137,7 +137,7 @@ describe('Testing Ratings', () => {
 
       (Sequelize as any).authenticate = jest.fn();
       const app = new App([ratingsRoute]);
-      return request(app.getServer()).delete(`${ratingsRoute.path}/${ratingId}`).expect(200);
+      return request(app.getServer()).delete(`${ratingsRoute.path}/${ratingId}`).set('Authorization', `Bearer ${process.env.TEST_TOKEN}`).expect(200);
     });
   });
 });
