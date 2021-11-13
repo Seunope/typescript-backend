@@ -68,7 +68,7 @@ describe('Testing Ratings', () => {
     it('response Create rating', async () => {
       const ratingData: CreateRating2Dto = {
         vote: 'up',
-        modelId: 1,
+        modelId: 4,
         type: 'question',
       };
 
@@ -96,7 +96,7 @@ describe('Testing Ratings', () => {
 
   describe('[PUT] /ratings/:id', () => {
     it('response Update rating', async () => {
-      const ratingId = 1;
+      const ratingId = 2;
       const ratingData: UpdateRatingDto = {
         vote: 'down',
       };
@@ -116,7 +116,11 @@ describe('Testing Ratings', () => {
 
       (Sequelize as any).authenticate = jest.fn();
       const app = new App([ratingsRoute]);
-      return request(app.getServer()).put(`${ratingsRoute.path}/${ratingId}`).set('Authorization', `Bearer ${process.env.TEST_TOKEN}`).send(ratingData).expect(200);
+      return request(app.getServer())
+        .put(`${ratingsRoute.path}/${ratingId}`)
+        .set('Authorization', `Bearer ${process.env.TEST_TOKEN}`)
+        .send(ratingData)
+        .expect(200);
     });
   });
 
