@@ -6,7 +6,8 @@ import ReplyModel from '@models/replies.model';
 import RatingModel from '@models/ratings.model';
 import QuestionModel from '@models/questions.model';
 import { dbConfig } from '@interfaces/db.interface';
-import SubscriptionModel from '@models/subscriptions.model'
+import NotificationModel from '@models/notifications.model';
+import SubscriptionModel from '@models/subscriptions.model';
 
 const { host, user, password, database, pool }: dbConfig = config.get('dbConfig');
 const sequelize = new Sequelize.Sequelize(database, user, password, {
@@ -37,6 +38,7 @@ const DB = {
   Ratings: RatingModel(sequelize),
   Replies: ReplyModel(sequelize),
   Questions: QuestionModel(sequelize),
+  Notifications: NotificationModel(sequelize),
   Subscriptions: SubscriptionModel(sequelize),
   sequelize, // connection instance (RAW queries)
   Sequelize, // library

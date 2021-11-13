@@ -19,6 +19,8 @@ tags:
   description: rate question and reply API
 - name: subscriptions
   description: subscriptions  API
+- name: notifications
+  description: notifications  API
 
 paths:
 # Login
@@ -499,7 +501,7 @@ paths:
         500:
           description: 'Server Error'  
 
-  # [GET] ratings/id
+  # [GET] subscription/id
   /subscriptions/{id}:
     get:
       tags:
@@ -569,6 +571,108 @@ paths:
         500:
           description: 'Server Error' 
 
+           
+# [GET] notifications
+  /notifications:
+    get:
+      tags:
+      - notifications
+      summary: Find All notifications
+      responses:
+        200:
+          description: 'OK'
+        500:
+          description: 'Server Error'
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+      - notifications
+      summary: Post notifications
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/notifications'
+      responses:
+        201:
+          description: 'Created'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'  
+
+  # [GET] notifications/id
+  /notifications/{id}:
+    get:
+      tags:
+      - notifications
+      summary: Find notifications By Id
+      parameters:
+      - name: id
+        in: path
+        description: notifications Id
+        required: true
+        type: integer
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+    # [PUT] notifications/id
+    put:
+      security:
+        - bearerAuth: []
+      tags:
+      - notifications
+      summary: Update notifications By Id
+      parameters:
+      - name: id
+        in: path
+        description: rate Id
+        required: true
+        type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/notificationsUpdate'
+     
+      responses:
+        200:
+          description: 'OK'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+    # [DELETE] notifications/id
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+      - notifications
+      summary: Delete notifications By Id
+      parameters:
+      - name: id
+        in: path
+        description: notifications Id
+        required: true
+        type: integer
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'       
       
 components:
   securitySchemes:
@@ -711,6 +815,34 @@ components:
         isSubscribed:
           type: boolean
           description: is subscribed
+
+    notifications:
+      title: rating data
+      type: object
+      required:
+          - replyId
+          - subscriptionId
+          - isViewed
+      properties:
+        replyId:
+          type: integer
+          description: notifications or reply
+        subscriptionId:
+          type: integer
+          description: notifications or reply
+        isViewed:
+          type: boolean
+          description: is viewed
+
+    notificationsUpdate:
+      title: update notification data
+      type: object
+      required:
+        - isViewed
+      properties:
+        isViewed:
+          type: boolean
+          description: is viewed
  
            
      
