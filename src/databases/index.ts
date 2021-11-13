@@ -2,10 +2,11 @@ import config from 'config';
 import Sequelize from 'sequelize';
 import { logger } from '@utils/logger';
 import UserModel from '@models/users.model';
-import RatingModel from '@models/ratings.model';
 import ReplyModel from '@models/replies.model';
-import { dbConfig } from '@interfaces/db.interface';
+import RatingModel from '@models/ratings.model';
 import QuestionModel from '@models/questions.model';
+import { dbConfig } from '@interfaces/db.interface';
+import SubscriptionModel from '@models/subscriptions.model'
 
 const { host, user, password, database, pool }: dbConfig = config.get('dbConfig');
 const sequelize = new Sequelize.Sequelize(database, user, password, {
@@ -36,6 +37,7 @@ const DB = {
   Ratings: RatingModel(sequelize),
   Replies: ReplyModel(sequelize),
   Questions: QuestionModel(sequelize),
+  Subscriptions: SubscriptionModel(sequelize),
   sequelize, // connection instance (RAW queries)
   Sequelize, // library
 };

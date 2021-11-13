@@ -16,7 +16,9 @@ tags:
 - name: reply
   description: reply question API
 - name: ratings
-  description: ratings question API
+  description: rate question and reply API
+- name: subscriptions
+  description: subscriptions  API
 
 paths:
 # Login
@@ -463,6 +465,110 @@ paths:
         500:
           description: 'Server Error' 
 
+
+
+  # [GET] subscriptions
+  /subscriptions:
+    get:
+      tags:
+      - subscriptions
+      summary: Find All subscriptions
+      responses:
+        200:
+          description: 'OK'
+        500:
+          description: 'Server Error'
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+      - subscriptions
+      summary: Post subscription
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/subscriptions'
+      responses:
+        201:
+          description: 'Created'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'  
+
+  # [GET] ratings/id
+  /subscriptions/{id}:
+    get:
+      tags:
+      - subscriptions
+      summary: Find subscription By Id
+      parameters:
+      - name: id
+        in: path
+        description: subscriptions Id
+        required: true
+        type: integer
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+    # [PUT] subscriptions/id
+    put:
+      security:
+        - bearerAuth: []
+      tags:
+      - subscriptions
+      summary: Update subscriptions By Id
+      parameters:
+      - name: id
+        in: path
+        description: rate Id
+        required: true
+        type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/subscriptionsUpdate'
+     
+      responses:
+        200:
+          description: 'OK'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+    # [DELETE] subscriptions/id
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+      - subscriptions
+      summary: Delete subscriptions By Id
+      parameters:
+      - name: id
+        in: path
+        description: subscriptions Id
+        required: true
+        type: integer
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error' 
+
       
 components:
   securitySchemes:
@@ -580,6 +686,31 @@ components:
         vote:
           type: sting [up|down]
           description: vote
+
+    subscriptions:
+      title: rating data
+      type: object
+      required:
+          - questionId
+          - userId
+          - isSubscribed
+      properties:
+        questionId:
+          type: integer
+          description: subscription or reply
+        isSubscribed:
+          type: boolean
+          description: is subscribed
+
+    subscriptionsUpdate:
+      title: update rating data
+      type: object
+      required:
+        - isSubscribed
+      properties:
+        isSubscribed:
+          type: boolean
+          description: is subscribed
  
            
      

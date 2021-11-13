@@ -15,7 +15,7 @@ class ReplyService {
   }
 
   public async findReplyById(ReplyId: number): Promise<Reply> {
-    if (isEmpty(ReplyId)) throw new HttpException(400, "You're not ReplyId");
+    if (isEmpty(ReplyId)) throw new HttpException(400, 'Wrong input');
 
     const findReply: Reply = await this.reply.findByPk(ReplyId);
     if (!findReply) throw new HttpException(409, "You're not Reply");
@@ -24,7 +24,7 @@ class ReplyService {
   }
 
   public async createReply(ReplyData: CreateReplyDto): Promise<Reply> {
-    if (isEmpty(ReplyData)) throw new HttpException(400, "You're not ReplyData");
+    if (isEmpty(ReplyData)) throw new HttpException(400, 'Wrong input');
 
     const findQuestion: Question = await this.question.findOne({ where: { id: ReplyData.questionId } });
     if (!findQuestion) throw new HttpException(409, `Question ID: " ${ReplyData.questionId}" is not found`);
@@ -36,7 +36,7 @@ class ReplyService {
     return createReplyData;
   }
   public async updateReply(ReplyId: number, ReplyData: UpdateReplyDto): Promise<Reply> {
-    if (isEmpty(ReplyData)) throw new HttpException(400, "You're not ReplyData");
+    if (isEmpty(ReplyData)) throw new HttpException(400, 'Wrong input');
 
     const findReply: Reply = await this.reply.findByPk(ReplyId);
     if (!findReply) throw new HttpException(409, ' Reply ID not found');

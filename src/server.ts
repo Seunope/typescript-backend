@@ -9,9 +9,18 @@ import UsersRoute from '@routes/users.route';
 import RatingRoute from '@routes/ratings.route';
 import ReplyRoute from './routes/replies.route';
 import QuestionsRoute from '@routes/questions.route';
+import SubscriptionsRoute from '@routes/subscriptions.route';
 
 validateEnv();
 
-const app = new App([new IndexRoute(), new AuthRoute(), new ReplyRoute(), new UsersRoute(), new RatingRoute(), new QuestionsRoute()]);
+const app = new App([
+  new IndexRoute(),
+  new AuthRoute(),
+  new ReplyRoute(),
+  new UsersRoute(),
+  new RatingRoute(),
+  new QuestionsRoute(),
+  new SubscriptionsRoute(),
+]);
 
 app.listen();
