@@ -1,9 +1,9 @@
-import { Question } from '@/interfaces/questions.interface';
 import DB from '@databases';
-import { CreateReplyDto, UpdateReplyDto } from '@dtos/replies.dto';
-import { HttpException } from '@exceptions/HttpException';
-import { Reply } from '@interfaces/replies.interface';
 import { isEmpty } from '@utils/util';
+import { Reply } from '@interfaces/replies.interface';
+import { HttpException } from '@exceptions/HttpException';
+import { Question } from '@/interfaces/questions.interface';
+import { CreateReplyDto, UpdateReplyDto } from '@dtos/replies.dto';
 
 class ReplyService {
   public reply = DB.Replies;
@@ -27,7 +27,7 @@ class ReplyService {
     if (isEmpty(ReplyData)) throw new HttpException(400, "You're not ReplyData");
 
     const findQuestion: Question = await this.question.findOne({ where: { id: ReplyData.questionId } });
-    if (!findQuestion) throw new HttpException(409, `Question ID: " ${ReplyData.questionId}" is not value`);
+    if (!findQuestion) throw new HttpException(409, `Question ID: " ${ReplyData.questionId}" is not found`);
 
     const findReply: Reply = await this.reply.findOne({ where: { reply: ReplyData.reply, questionId: ReplyData.questionId } });
     if (findReply) throw new HttpException(409, `You're reply is " ${ReplyData.reply}" already exists`);

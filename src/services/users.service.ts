@@ -34,7 +34,7 @@ class UserService {
   }
 
   public async updateUser(userReqId: number, userId: number, userData: UpdateUserDto): Promise<User> {
-    if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
+    if (isEmpty(userData)) throw new HttpException(400, 'No data provided');
 
     if (userReqId !== userId) {
       throw new HttpException(402, "You're not the owner of this account");

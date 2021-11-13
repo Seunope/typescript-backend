@@ -2,11 +2,8 @@ import { IsString, IsNumber, IsBoolean } from 'class-validator';
 import 'core-js/proposals/reflect-metadata';
 import { Type } from 'class-transformer';
 export class CreateRatingDto {
-  @IsBoolean()
-  public upVote: boolean;
-
-  @IsBoolean()
-  public downVote: boolean;
+  @IsString()
+  public vote: string;
 
   @IsNumber()
   @Type(() => Number)
@@ -18,4 +15,21 @@ export class CreateRatingDto {
 
   @IsString()
   public type: string;
+}
+
+export class CreateRating2Dto {
+  @IsString()
+  public vote: string;
+
+  @IsNumber()
+  @Type(() => Number)
+  public modelId: number;
+
+  @IsString()
+  public type: string;
+}
+
+export class UpdateRatingDto {
+  @IsString()
+  public vote: string;
 }

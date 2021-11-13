@@ -29,10 +29,8 @@ class RatingsController {
 
   public createRating = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const userId = req.user.id;
+      const userId: number = req.user.id;
 
-      req.body.upVote = 0;
-      req.body.downVote = 0;
       req.body.userId = userId;
       const RatingData: CreateRatingDto = req.body;
       const createRatingData: Rating = await this.ratingService.createRating(RatingData);
@@ -46,6 +44,7 @@ class RatingsController {
   public updateRating = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const RatingId = Number(req.params.id);
+      req.body.userId = req.user.id;
       const RatingData: CreateRatingDto = req.body;
       const updateRatingData: Rating = await this.ratingService.updateRating(RatingId, RatingData);
 

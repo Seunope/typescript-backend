@@ -342,6 +342,8 @@ paths:
 
     # [DELETE] reply/id
     delete:
+      security:
+        - bearerAuth: []
       tags:
       - reply
       summary: Delete reply By Id
@@ -364,7 +366,7 @@ paths:
     get:
       tags:
       - ratings
-      summary: Find All reply
+      summary: Find All rate
       responses:
         200:
           description: 'OK'
@@ -375,7 +377,7 @@ paths:
         - bearerAuth: []
       tags:
       - ratings
-      summary: Post reply
+      summary: Post rate
       requestBody:
         content:
           application/json:
@@ -396,11 +398,11 @@ paths:
     get:
       tags:
       - ratings
-      summary: Find reply By Id
+      summary: Find rate By Id
       parameters:
       - name: id
         in: path
-        description: reply Id
+        description: rate Id
         required: true
         type: integer
       responses:
@@ -413,20 +415,22 @@ paths:
 
     # [PUT] ratings/id
     put:
+      security:
+        - bearerAuth: []
       tags:
       - ratings
-      summary: Update reply By Id
+      summary: Update rate By Id
       parameters:
       - name: id
         in: path
-        description: reply Id
+        description: rate Id
         required: true
         type: integer
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/reply'
+              $ref: '#/components/schemas/ratingsUpdate'
      
       responses:
         200:
@@ -440,13 +444,15 @@ paths:
 
     # [DELETE] ratings/id
     delete:
+      security:
+        - bearerAuth: []
       tags:
       - ratings
-      summary: Delete reply By Id
+      summary: Delete rate By Id
       parameters:
       - name: id
         in: path
-        description: user Id
+        description: rate Id
         required: true
         type: integer
       responses:
@@ -460,7 +466,7 @@ paths:
       
 components:
   securitySchemes:
-    bearerAuth:            # arbitrary name for the security scheme
+    bearerAuth:            
       type: http
       scheme: bearer
       bearerFormat: JWT   
@@ -556,16 +562,24 @@ components:
           - ratings
       properties:
         type:
-          type: string
+          type: string [question or reply]
           description: question or reply
-        upVote:
-          type: boolean
-          description: user upVote
-        downVote:
-          type: boolean
-          description: user downVote
+        vote:
+          type: sting [up|down]
+          description: vote
         modelId:
           type: integer
           description: question or reply id
+
+    ratingsUpdate:
+      title: update rating data
+      type: object
+      required:
+          - ratings
+      properties:
+        vote:
+          type: sting [up|down]
+          description: vote
+ 
            
      

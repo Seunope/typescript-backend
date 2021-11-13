@@ -48,6 +48,7 @@ class ReplysController {
     try {
       const ReplyId = Number(req.params.id);
       const ReplyData: UpdateReplyDto = req.body;
+      
       const updateReplyData: Reply = await this.replyService.updateReply(ReplyId, ReplyData);
 
       res.status(200).json({ data: updateReplyData, message: 'updated' });
