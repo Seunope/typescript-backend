@@ -39,7 +39,7 @@ class AuthService {
   }
 
   public async logout(userData: User): Promise<User> {
-    if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
+    if (isEmpty(userData)) throw new HttpException(400, "You're not user");
 
     const findUser: User = await this.users.findOne({ where: { email: userData.email, password: userData.password } });
     if (!findUser) throw new HttpException(409, "You're not user");

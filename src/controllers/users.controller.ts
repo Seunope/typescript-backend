@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { CreateUserDto } from '@dtos/users.dto';
 import { User } from '@interfaces/users.interface';
 import userService from '@services/users.service';
+import { RequestWithUser } from '@/interfaces/auth.interface';
 
 class UsersController {
   public userService = new userService();
@@ -38,7 +39,7 @@ class UsersController {
     }
   };
 
-  public updateUser = async (req: Request, res: Response, next: NextFunction) => {
+  public updateUser = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
       const userReqId = req.user.id;
       const userId = Number(req.params.id);
@@ -51,7 +52,7 @@ class UsersController {
     }
   };
 
-  public deleteUser = async (req: Request, res: Response, next: NextFunction) => {
+  public deleteUser = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
       const userReqId = req.user.id;
       const userId = Number(req.params.id);

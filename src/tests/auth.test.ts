@@ -54,13 +54,20 @@ describe('Testing Auth', () => {
         email: userData.email,
         password: await bcrypt.hash(userData.password, 10),
       });
+      //const authToken: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjM2ODEyNTA1LCJleHAiOjE2MzY4MTYxMDV9.vuvVPnMloZr1Ja2DAJqHnnnRNfvTc4HEYY2lVyyZnuE'
 
       (Sequelize as any).authenticate = jest.fn();
       const app = new App([authRoute]);
-      return request(app.getServer())
-        .post(`${authRoute.path}/login`)
-        .send(userData)
-        .expect('Set-Cookie', /^Authorization=.+/);
+      return (
+        request(app.getServer())
+          .post(`${authRoute.path}/login`)
+          .send(userData)
+          // .set(
+          //   'authorization',
+          //   `bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjM2ODEyNTA1LCJleHAiOjE2MzY4MTYxMDV9.vuvVPnMloZr1Ja2DAJqHnnnRNfvTc4HEYY2lVyyZnuE`,
+          // )
+          .expect('Set-Cookie', /^Authorization=.+/)
+      );
     });
   });
 
@@ -70,7 +77,7 @@ describe('Testing Auth', () => {
 
   //     const app = new App([authRoute]);
   //     return request(app.getServer())
-  //       .post(`${authRoute.path}logout`)
+  //       .post(`${authRoute.path}/logout`)
   //       .expect('Set-Cookie', /^Authorization=\;/);
   //   });
   // });

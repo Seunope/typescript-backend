@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize';
 import request from 'supertest';
 import App from '@/app';
-import { CreateQuestionDto } from '@dtos/questions.dto';
+import { SetQuestionDto } from '@dtos/questions.dto';
 import QuestionRoute from '@routes/questions.route';
 
 afterAll(async () => {
@@ -30,7 +30,7 @@ describe('Testing Questions', () => {
           question: 'a3@email.com',
         },
         {
-          id: 1,
+          id: 3,
           userId: 1,
           upVote: 0,
           downVote: 3,
@@ -64,11 +64,8 @@ describe('Testing Questions', () => {
 
   describe('[POST] /questions', () => {
     it('response Create question', async () => {
-      const questionData: CreateQuestionDto = {
-        userId: 1,
-        upVote: 0,
-        downVote: 0,
-        question: 'test@email.com',
+      const questionData: SetQuestionDto = {
+        question: 'Test question',
       };
 
       const questionsRoute = new QuestionRoute();
@@ -79,24 +76,28 @@ describe('Testing Questions', () => {
         id: 1,
         userId: 1,
         upVote: 0,
-        downVote: 3,
-        question: '3@email.com',
+        downVote: 0,
+        question: 'Test question',
       });
 
       (Sequelize as any).authenticate = jest.fn();
       const app = new App([questionsRoute]);
-      return request(app.getServer()).post(`${questionsRoute.path}`).send(questionData).expect(201);
+      return request(app.getServer())
+        .post(`${questionsRoute.path}`)
+        .send(questionData)
+        .expect(201)
+        .set(
+          'authorization',
+          `bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjM2ODE1OTA4LCJleHAiOjE2MzY4MTk1MDh9.T9h2oKvaa8Z2PbNWClsHIneAKUNjbeq3olyARB477E4`,
+        );
     });
   });
 
   describe('[PUT] /questions/:id', () => {
     it('response Update question', async () => {
       const questionId = 1;
-      const questionData: CreateQuestionDto = {
-        userId: 1,
-        upVote: 20,
-        downVote: 30,
-        question: 'test@email.com',
+      const questionData: SetQuestionDto = {
+        question: 'Test question',
       };
 
       const questionsRoute = new QuestionRoute();

@@ -12,14 +12,6 @@ import QuestionsRoute from '@routes/questions.route';
 
 validateEnv();
 
-const app = new App([
-  new IndexRoute(),
-  new UsersRoute(),
-  new AuthRoute(),
-  new ReplyRoute(),
-  new UsersRoute(),
-  new RatingRoute(),
-  new QuestionsRoute(),
-]);
+const app = new App([new IndexRoute(), new AuthRoute(), new ReplyRoute(), new UsersRoute(), new RatingRoute(), new QuestionsRoute()]);
 
 app.listen();

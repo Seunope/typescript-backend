@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { CreateRatingDto } from '@dtos/ratings.dto';
 import { Rating } from '@interfaces/ratings.interface';
 import ratingService from '@services/ratings.service';
+import { RequestWithUser } from '@/interfaces/auth.interface';
 
 class RatingsController {
   public ratingService = new ratingService();
@@ -27,7 +28,7 @@ class RatingsController {
     }
   };
 
-  public createRating = async (req: Request, res: Response, next: NextFunction) => {
+  public createRating = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
       const userId: number = req.user.id;
 
@@ -41,7 +42,7 @@ class RatingsController {
     }
   };
 
-  public updateRating = async (req: Request, res: Response, next: NextFunction) => {
+  public updateRating = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
       const RatingId = Number(req.params.id);
       req.body.userId = req.user.id;

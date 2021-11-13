@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { CreateReplyDto, UpdateReplyDto } from '@dtos/replies.dto';
 import { Reply } from '@interfaces/replies.interface';
 import replyService from '@services/replies.service';
+import { RequestWithUser } from '@/interfaces/auth.interface';
 
 class ReplysController {
   public replyService = new replyService();
@@ -27,7 +28,7 @@ class ReplysController {
     }
   };
 
-  public createReply = async (req: Request, res: Response, next: NextFunction) => {
+  public createReply = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
       const userId = req.user.id;
 
@@ -48,7 +49,7 @@ class ReplysController {
     try {
       const ReplyId = Number(req.params.id);
       const ReplyData: UpdateReplyDto = req.body;
-      
+
       const updateReplyData: Reply = await this.replyService.updateReply(ReplyId, ReplyData);
 
       res.status(200).json({ data: updateReplyData, message: 'updated' });

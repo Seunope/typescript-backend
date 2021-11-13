@@ -1,6 +1,6 @@
 import DB from '@databases';
 import { isEmpty } from '@utils/util';
-import { CreateRatingDto, CreateRatingDto, UpdateRatingDto } from '@dtos/ratings.dto';
+import { CreateRatingDto } from '@dtos/ratings.dto';
 import { Rating } from '@interfaces/ratings.interface';
 import { HttpException } from '@exceptions/HttpException';
 import { Question } from '@/interfaces/questions.interface';

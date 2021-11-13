@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { CreateQuestionDto, SetQuestionDto } from '@dtos/questions.dto';
 import { Question } from '@interfaces/questions.interface';
 import questionService from '@services/questions.service';
+import { RequestWithUser } from '@/interfaces/auth.interface';
 
 class QuestionsController {
   public questionService = new questionService();
@@ -27,7 +28,7 @@ class QuestionsController {
     }
   };
 
-  public createQuestion = async (req: Request, res: Response, next: NextFunction) => {
+  public createQuestion = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
       const userId = req.user.id;
 
