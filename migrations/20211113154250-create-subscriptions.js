@@ -10,9 +10,19 @@ module.exports = {
       },
       questionId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: 'Questions',
+          key: 'id',
+        },
+        allowNull: false,
       },
       userId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id',
+        },
+        allowNull: false,
       },
       isSubscribe: {
         type: Sequelize.BOOLEAN,

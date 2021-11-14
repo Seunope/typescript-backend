@@ -11,11 +11,21 @@ module.exports = {
       reply: {
         type: Sequelize.STRING,
       },
-      questionId: {
-        type: Sequelize.INTEGER,
-      },
       userId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id',
+        },
+        allowNull: false,
+      },
+      questionId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Questions',
+          key: 'id',
+        },
+        allowNull: false,
       },
       upVote: {
         type: Sequelize.INTEGER,

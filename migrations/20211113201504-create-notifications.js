@@ -10,6 +10,11 @@ module.exports = {
       },
       subscriptionId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: 'Subscriptions',
+          key: 'id',
+        },
+        allowNull: false,
       },
       isViewed: {
         type: Sequelize.BOOLEAN,

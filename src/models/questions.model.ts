@@ -9,7 +9,7 @@ export class QuestionModel extends Model<Question, QuestionCreationAttributes> i
   upVote: number;
   question: string;
   downVote: number;
- 
+
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
@@ -39,11 +39,22 @@ export default function (sequelize: Sequelize): typeof QuestionModel {
         type: DataTypes.INTEGER,
       },
     },
+    //   {
+    //     classMethods:{
+    //         associate:function(models){
+    //             Users.has(models.Comment, { foreignKey: 'userId'} );
+    //         }
+    //     }
+    // }
     {
       tableName: 'Questions',
       sequelize,
     },
   );
 
+  //  charges.associate = function (models) {
+  //   // associations can be defined here
+  //   models.cards.hasMany(models.charge, { foreignKey: 'cardId' });
+  // };
   return QuestionModel;
 }

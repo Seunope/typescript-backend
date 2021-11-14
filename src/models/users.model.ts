@@ -50,5 +50,8 @@ export default function (sequelize: Sequelize): typeof UserModel {
     },
   );
 
+  // UserModel.associate = function (models) {
+  //   // associations can be defined here
+  // };
   return UserModel;
 }

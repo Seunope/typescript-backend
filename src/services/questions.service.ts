@@ -8,7 +8,9 @@ class QuestionService {
   public questions = DB.Questions;
 
   public async findAllQuestion(): Promise<Question[]> {
+    // const allQuestion: Question[] = await this.questions.findAll({ include: { model: DB.Users, as: 'user' } });
     const allQuestion: Question[] = await this.questions.findAll();
+
     return allQuestion;
   }
 
