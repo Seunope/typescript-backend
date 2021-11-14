@@ -214,6 +214,7 @@ paths:
         500:
           description: 'Server Error'
 
+
     # [PUT] users/id
     put:
       security:
@@ -250,6 +251,26 @@ paths:
       tags:
       - questions
       summary: Delete questions By Id
+      parameters:
+      - name: id
+        in: path
+        description: user Id
+        required: true
+        type: integer
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+            # [GET] questions users/id
+  /questions/user/{id}:
+    get:
+      tags:
+      - questions
+      summary: Find user question By Id
       parameters:
       - name: id
         in: path

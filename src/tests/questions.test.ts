@@ -65,6 +65,29 @@ describe('Testing Questions', () => {
     });
   });
 
+  describe('[GET] /questions/user/:id', () => {
+    it('response find all user question', async () => {
+      const userId = 1;
+
+      const questionsRoute = new QuestionRoute();
+      const questions = questionsRoute.questionsController.questionService.questions;
+
+      questions.findByPk = jest.fn().mockReturnValue({
+        id: 1,
+        question: 'My first question',
+        upVote: 0,
+        userId: 1,
+        downVote: 0,
+        createdAt: '2021-11-14T12:11:42.000Z',
+        updatedAt: '2021-11-14T12:11:42.000Z',
+      });
+
+      (Sequelize as any).authenticate = jest.fn();
+      const app = new App([questionsRoute]);
+      return request(app.getServer()).get(`${questionsRoute.path}/user/${userId}`).expect(200);
+    });
+  });
+
   describe('[POST] /questions', () => {
     it('response Create question', async () => {
       const questionData: SetQuestionDto = {

@@ -17,6 +17,17 @@ class QuestionsController {
     }
   };
 
+  public getUserQuestions = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const UserId = Number(req.params.id);
+      const findAllQuestionsData: Question[] = await this.questionService.findUserQuestions(UserId);
+
+      res.status(200).json({ data: findAllQuestionsData, message: 'findAll' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
   public getQuestionById = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const QuestionId = Number(req.params.id);
@@ -30,11 +41,10 @@ class QuestionsController {
 
   public createQuestion = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
-      const userId = req.user.id;
 
       req.body.upVote = 0;
       req.body.downVote = 0;
-      req.body.userId = userId;
+      req.body.userId = req.user.id;
       const QuestionData: CreateQuestionDto = req.body;
       const createQuestionData: Question = await this.questionService.createQuestion(QuestionData);
 

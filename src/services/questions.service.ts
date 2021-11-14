@@ -1,5 +1,5 @@
 import DB from '@databases';
-import { CreateQuestionDto, SetQuestionDto } from '@dtos/questions.dto';
+import { CreateQuestionDto, SetQuestionDto, } from '@dtos/questions.dto';
 import { HttpException } from '@exceptions/HttpException';
 import { Question } from '@interfaces/questions.interface';
 import { isEmpty } from '@utils/util';
@@ -12,6 +12,12 @@ class QuestionService {
     const allQuestion: Question[] = await this.questions.findAll();
 
     return allQuestion;
+  }
+
+  public async findUserQuestions(UserId: number): Promise<Question[]> {
+    const userQuestions: Question[] = await this.questions.findAll({ where: { userId: UserId } });
+
+    return userQuestions;
   }
 
   public async findQuestionById(QuestionId: number): Promise<Question> {
