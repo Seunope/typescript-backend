@@ -16,6 +16,14 @@ module.exports = {
         },
         allowNull: false,
       },
+      replyId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Replies',
+          key: 'id',
+        },
+        allowNull: false,
+      },
       isViewed: {
         type: Sequelize.BOOLEAN,
       },

@@ -20,26 +20,6 @@ git branch -M main
 git push -uf origin main
 ```
 
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://gitlab.com/-/experiment/new_project_readme_content:53fffc5bb2bb1a352c809ad2458aaae8?https://docs.gitlab.com/ee/user/project/integrations/)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://gitlab.com/-/experiment/new_project_readme_content:53fffc5bb2bb1a352c809ad2458aaae8?https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://gitlab.com/-/experiment/new_project_readme_content:53fffc5bb2bb1a352c809ad2458aaae8?https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://gitlab.com/-/experiment/new_project_readme_content:53fffc5bb2bb1a352c809ad2458aaae8?https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Automatically merge when pipeline succeeds](https://gitlab.com/-/experiment/new_project_readme_content:53fffc5bb2bb1a352c809ad2458aaae8?https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://gitlab.com/-/experiment/new_project_readme_content:53fffc5bb2bb1a352c809ad2458aaae8?https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://gitlab.com/-/experiment/new_project_readme_content:53fffc5bb2bb1a352c809ad2458aaae8?https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://gitlab.com/-/experiment/new_project_readme_content:53fffc5bb2bb1a352c809ad2458aaae8?https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://gitlab.com/-/experiment/new_project_readme_content:53fffc5bb2bb1a352c809ad2458aaae8?https://docs.gitlab.com/ee/user/clusters/agent/)
-
 ***
 
 # Requirement
@@ -53,10 +33,26 @@ scope, there are 3 modules to be implemented:
 notification when the question is answered)
 
 ## Database Setup
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+Create DB called "Korapay" on PhpMyAdmin or another Mysql management you have on your machine
 
 ## Project Set up
-Choose a self-explaining name for your project.
+git clone https://gitlab.com/korapay-assessment/be-ope-mesonrale.git
+npm i
+npm run dev
+
+Go to http://localhost:3000/api-docs to view docs
+
+## Project Test
+npm run migrate
+npm run seed:a
+npm run dev
+ Go to swagger http://localhost:3000/api-docs/#/auth/post_auth_login    and login as email: user1@g.com password:123456
+
+ copy the token and place in .env file variable TEST_TOKEN
+
+ The token is valid for one hour
+
+ npm run test
 
 ## Assumptions
 Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.

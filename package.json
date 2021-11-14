@@ -17,6 +17,9 @@
     "migrate:u:a": "sequelize db:migrate:undo:all",
     "model": "sequelize model:generate --name",
     "migration": "sequelize migration:create --name",
+    "seed": "sequelize seed:generate",
+    "seed:a": "sequelize db:seed:all",
+    "seed:u": "sequelize db:seed:undo",
     "deploy:dev": "pm2 start ecosystem.config.js --only dev"
   },
   "dependencies": {

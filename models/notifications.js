@@ -16,8 +16,9 @@ module.exports = (sequelize, DataTypes) => {
   }
   Notifications.init(
     {
-      subscriptionId: DataTypes.INTEGER,
+      replyId: DataTypes.INTEGER,
       isViewed: DataTypes.BOOLEAN,
+      subscriptionId: DataTypes.INTEGER,
     },
     {
       sequelize,
