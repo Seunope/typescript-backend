@@ -4,10 +4,13 @@ import { Reply } from '@interfaces/replies.interface';
 import { HttpException } from '@exceptions/HttpException';
 import { Question } from '@/interfaces/questions.interface';
 import { CreateReplyDto, UpdateReplyDto } from '@dtos/replies.dto';
+import { Subscription } from '@/interfaces/subscriptions.interface';
+import NotificationService from './notifications.service';
 
 class ReplyService {
   public reply = DB.Replies;
   public question = DB.Questions;
+  public subscription = DB.Subscriptions;
 
   public async findAllReply(): Promise<Reply[]> {
     const allReply: Reply[] = await this.reply.findAll();
@@ -33,6 +36,19 @@ class ReplyService {
     if (findReply) throw new HttpException(409, `You're reply is " ${ReplyData.reply}" already exists`);
 
     const createReplyData: Reply = await this.reply.create({ ...ReplyData });
+
+    try {
+      const findSubscription = await this.subscription.findAll({
+        where: { questionId: ReplyData.questionId },
+      });
+
+      if (!findSubscription) throw new HttpException(409, 'not found!');
+      const notify = new NotificationService();
+      findSubscription.map(async subscription => {
+        await notify.createNotification({ replyId: createReplyData.id, subscriptionId: subscription.id, isViewed: false });
+      });
+    } catch (error) {}
+
     return createReplyData;
   }
   public async updateReply(ReplyId: number, ReplyData: UpdateReplyDto): Promise<Reply> {
