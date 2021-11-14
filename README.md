@@ -14,39 +14,55 @@ notification when the question is answered)
 ***
 
 ## Database Setup
-Create DB called "Korapay" on PhpMyAdmin or another Mysql management you have on your machine
+Create DB called "Korapay" on PhpMyAdmin or another Mysql management software you have on your machine
 
 ## Project Set up
 `git clone https://gitlab.com/korapay-assessment/be-ope-mesonrale.git`
+
 `npm i`
+
+ In the root of the floder, convert the .env.sample to .env 
+
 `npm run dev`
 
 Go to http://localhost:3000/api-docs to view docs
 
 ## Project Test
 `npm run migrate`
+
 `npm run seed:a`
+
 `npm run dev`
+
  
- Go to swagger http://localhost:3000/api-docs/#/auth/post_auth_login    and login as email: user1@g.com password:123456
+ Go to swagger http://localhost:3000/api-docs/#/auth/post_auth_login    and login with
 
- copy the token and place in .env file variable TEST_TOKEN
+  **email**: user1@g.com 
+  **password**: 123456
 
- The token is valid for one hour
+  Copy the token from the reponsed body after login action is excuted on swagger.
+  
+  Paste the copied token  into .env file variable TEST_TOKEN
+
+  The token is valid for one hour
 
  `npm run test`
 
 ## Assumptions
-
+1. User has msql server install on computer
+2. user runs Node 15.7 or latest 
+3. Only autheticated user can create post, reply, rate and subscribe to question
+4. Unautheticated user can perform Find all and Find by id opperation accross alll the REST apis
+5. User can rate questions and answers 
 
 ## Requirement not Covered
-
+None
 
 ## Issued Faced
-
+None
 
 ## Improvement suggestions
-
+None
 
 
 ## Acknowledgment
