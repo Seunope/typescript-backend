@@ -5,7 +5,6 @@ import { Reply } from '@interfaces/answers.interface';
 import { HttpException } from '@exceptions/HttpException';
 import { Question } from '@/interfaces/questions.interface';
 import { CreateReplyDto, UpdateReplyDto } from '@dtos/answers.dto';
-import { Subscription } from '@/interfaces/subscriptions.interface';
 import NotificationService from './notifications.service';
 import constants from '@/utils/constants';
 

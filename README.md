@@ -13,14 +13,13 @@ notification when the question is answered)
 ```
 ***
 
-
 ## Modules
 **Questions** Questions asked by user
-**answers** Answer to questions
-**Comment** Handle comments on questions and answers(answer)
-**Subscriptions** Subscribe to question reply(answer)
-**Notifications** Is activated when a user answer (reply) a question. Only subscriber gets message
-**Ratings** Questions and Reply (answer) rating
+**Answers** Answer to questions
+**Comment** Handle comments on questions and answers
+**Subscriptions** Subscribe to question 
+**Notifications** Is activated when a user answer a question. Only subscriber gets message
+**Ratings** Questions and Answer rating
 
 ## Database Setup
 Create DB called "Korapay" on PhpMyAdmin or another Mysql management software you have on your machine
@@ -30,13 +29,15 @@ Create DB called "Korapay" on PhpMyAdmin or another Mysql management software yo
 
 `npm i`
 
- In the root of the floder, convert the .env.sample to .env 
+ In the root of the folder, convert the .env.sample to .env 
 
 `npm run dev`
 
 Go to http://localhost:3000/api-docs to view docs
 
 ## Project Test
+`npm run migrate:u:a`
+
 `npm run migrate`
 
 `npm run seed:a`
@@ -44,12 +45,12 @@ Go to http://localhost:3000/api-docs to view docs
 `npm run dev`
 
  
- Go to swagger http://localhost:3000/api-docs/#/auth/post_auth_login    and login with
+ Go to swagger documentation  http://localhost:3000/api-docs/#/auth/post_auth_login    and login with
 
   **email**: user1@g.com 
   **password**: 123456
 
-  Copy the token from the reponsed body after login action is excuted on swagger.
+  Copy the token from the response body after login action is executed on swagger.
   
   Paste the copied token  into .env file variable TEST_TOKEN
 
@@ -57,25 +58,26 @@ Go to http://localhost:3000/api-docs to view docs
 
  `npm run test`
 
+ **For some weird reason**  you have to run `npm run test` twice before all test pass.
+
 ## Assumptions
 1. User has msql server install on computer
-2. user runs Node 15.7 or latest 
-3. Only autheticated user can create post, reply, rate and subscribe to question
-4. Unautheticated user can perform Find all and Find by id opperation accross alll the REST apis
-5. User can rate questions and answers 
+2. User runs Node 15.7 or latest.
+3. Only authenticated user can create post, reply, rate and subscribe to question
+4. Unauthenticated user can perform Find all and Find by id operation across all the REST apis
+5. User can rate questions and answers.
 
 ## Requirement not Covered
 None
 
 ## Issued Faced
-None
+Because of MySQL foreign key constraint error, i had to comment out the test for delete route in some test suit. This account to why some test coverage are low. 
 
 ## Improvement suggestions
 None
 
 
 ## Acknowledgment
- ljlm0402 /typescript-express-starter .
-
+ ljlm0402 /typescript-express-starter . Awesome library!!!
 
 
