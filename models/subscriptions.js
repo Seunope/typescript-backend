@@ -12,6 +12,9 @@ module.exports = (sequelize, DataTypes) => {
       Subscriptions.belongsTo(models.Questions, {
         foreignKey: 'questionId',
       });
+      Subscriptions.belongsTo(models.Users, {
+        foreignKey: 'userId',
+      });
     }
   }
   Subscriptions.init(

@@ -8,6 +8,7 @@ import validateEnv from '@utils/validateEnv';
 import UsersRoute from '@routes/users.route';
 import RatingRoute from '@routes/ratings.route';
 import ReplyRoute from './routes/answers.route';
+import CommentsRoute from './routes/comments.route';
 import QuestionsRoute from '@routes/questions.route';
 import NotificationsRoute from './routes/notifications.route';
 import SubscriptionsRoute from '@routes/subscriptions.route';
@@ -20,6 +21,7 @@ const app = new App([
   new ReplyRoute(),
   new UsersRoute(),
   new RatingRoute(),
+  new CommentsRoute(),
   new QuestionsRoute(),
   new SubscriptionsRoute(),
   new NotificationsRoute(),

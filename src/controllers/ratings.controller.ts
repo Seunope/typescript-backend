@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { CreateRatingDto } from '@dtos/ratings.dto';
+import { CreateRatingDto, UpdateUserRatingDto } from '@dtos/ratings.dto';
 import { Rating } from '@interfaces/ratings.interface';
 import ratingService from '@services/ratings.service';
 import { RequestWithUser } from '@/interfaces/auth.interface';
@@ -30,9 +30,7 @@ class RatingsController {
 
   public createRating = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
-      const userId: number = req.user.id;
-
-      req.body.userId = userId;
+      req.body.userId = req.user.id;
       const RatingData: CreateRatingDto = req.body;
       const createRatingData: Rating = await this.ratingService.createRating(RatingData);
 
@@ -46,7 +44,7 @@ class RatingsController {
     try {
       const RatingId = Number(req.params.id);
       req.body.userId = req.user.id;
-      const RatingData: CreateRatingDto = req.body;
+      const RatingData: UpdateUserRatingDto = req.body;
       const updateRatingData: Rating = await this.ratingService.updateRating(RatingId, RatingData);
 
       res.status(200).json({ data: updateRatingData, message: 'updated' });

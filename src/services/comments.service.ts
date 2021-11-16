@@ -28,12 +28,12 @@ class CommentService {
     if (isEmpty(CommentData)) throw new HttpException(400, constants.EMPTY_BODY);
 
     const findAnswer: Reply = await this.answer.findOne({ where: { id: CommentData.answerId } });
-    if (!findAnswer) throw new HttpException(409, `Answer ID: " ${CommentData.answerId}" is not found`);
+    if (!findAnswer) throw new HttpException(201, `Answer ID: " ${CommentData.answerId}" is not found`);
 
     const findComment: Comment = await this.comments.findOne({
       where: { userId: CommentData.userId, answerId: CommentData.answerId, message: CommentData.message },
     });
-    if (findComment) throw new HttpException(409, constants.ALREADY_EXIST);
+    if (findComment) throw new HttpException(201, constants.ALREADY_EXIST);
 
     const createCommentData: Comment = await this.comments.create({ ...CommentData });
     return createCommentData;

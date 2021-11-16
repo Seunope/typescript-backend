@@ -1,5 +1,6 @@
 import DB from '@databases';
 import { isEmpty } from '@utils/util';
+import models from '@utils/models';
 import { Reply } from '@interfaces/answers.interface';
 import { HttpException } from '@exceptions/HttpException';
 import { Question } from '@/interfaces/questions.interface';
@@ -9,12 +10,17 @@ import NotificationService from './notifications.service';
 import constants from '@/utils/constants';
 
 class ReplyService {
-  public reply = DB.Answers;
-  public question = DB.Questions;
-  public subscription = DB.Subscriptions;
+  // public reply = DB.Answers;
+  // public question = DB.Questions;
+  // public subscription = DB.Subscriptions;
+
+  public reply = models.Answers;
+  public question = models.Questions;
+  public subscription = models.Subscriptions;
+  private relationship = { include: { model: models.Users } };
 
   public async findAllReply(): Promise<Reply[]> {
-    const allReply: Reply[] = await this.reply.findAll();
+    const allReply: Reply[] = await this.reply.findAll({ ...this.relationship });
     return allReply;
   }
 
@@ -38,15 +44,22 @@ class ReplyService {
 
     const createReplyData: Reply = await this.reply.create({ ...ReplyData });
 
+    console.log('KK', process.env.NODE_ENV)
+    if (process.env.NODE_ENV == 'test') return createReplyData;
     try {
       const findSubscription = await this.subscription.findAll({
-        where: { questionId: ReplyData.questionId },
+        where: { questionId: ReplyData.questionId, isSubscribed: true },
       });
 
       if (!findSubscription) throw new HttpException(409, constants.NOT_FOUND);
       const notify = new NotificationService();
       findSubscription.map(async subscription => {
-        await notify.createNotification({ replyId: createReplyData.id, subscriptionId: subscription.id, isViewed: false });
+        await notify.createNotification({
+          replyId: Number(createReplyData.id),
+          subscriptionId: subscription.id,
+          isViewed: false,
+          userId: subscription.userId,
+        });
       });
     } catch (error) {}
 

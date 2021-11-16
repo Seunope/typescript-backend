@@ -4,21 +4,21 @@ import { CreateQuestionDto, SetQuestionDto } from '@dtos/questions.dto';
 import { HttpException } from '@exceptions/HttpException';
 import { Question } from '@interfaces/questions.interface';
 import { isEmpty } from '@utils/util';
-import { UserModel } from '@/models/users.model';
 import Constants from '@utils/constants';
 
 class QuestionService {
-  // public questions = DB.Questions;
+  //public questions = DB.Questions;
   public questions = models.Questions;
+  private relationship = { include: { model: models.Users } };
 
   public async findAllQuestion(): Promise<Question[]> {
-    const allQuestion: Question[] = await this.questions.findAll({ include: { model: UserModel } });
+    const allQuestion: Question[] = await this.questions.findAll({ ...this.relationship });
 
     return allQuestion;
   }
 
   public async findUserQuestions(UserId: number): Promise<Question[]> {
-    const userQuestions: Question[] = await this.questions.findAll({ where: { userId: UserId } });
+    const userQuestions: Question[] = await this.questions.findAll({ where: { userId: UserId }, ...this.relationship });
 
     return userQuestions;
   }
@@ -26,7 +26,7 @@ class QuestionService {
   public async findQuestionById(QuestionId: number): Promise<Question> {
     if (isEmpty(QuestionId)) throw new HttpException(400, Constants.EMPTY_ID);
 
-    const findQuestion: Question = await this.questions.findByPk(QuestionId);
+    const findQuestion: Question = await this.questions.findByPk(QuestionId, this.relationship);
     if (!findQuestion) throw new HttpException(409, Constants.NOT_FOUND);
 
     return findQuestion;

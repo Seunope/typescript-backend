@@ -28,6 +28,17 @@ class NotificationsController {
     }
   };
 
+  public getUserNotificationById = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const NotificationId = Number(req.params.id);
+      const findOneNotificationData: Notification[] = await this.notificationService.findUserNotificationsById(NotificationId);
+
+      res.status(200).json({ data: findOneNotificationData, message: 'findOne' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
   public createNotification = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
       req.body.userId = req.user.id;

@@ -12,6 +12,23 @@ export class CreateNotificationDto {
 
   @IsBoolean()
   public isViewed: boolean;
+
+  @IsNumber()
+  @Type(() => Number)
+  public userId: number;
+}
+
+export class CreateDataNotificationDto {
+  @IsNumber()
+  @Type(() => Number)
+  public replyId: number;
+
+  @IsNumber()
+  @Type(() => Number)
+  public subscriptionId: number;
+
+  @IsBoolean()
+  public isViewed: boolean;
 }
 
 export class UpdateNotificationDto {

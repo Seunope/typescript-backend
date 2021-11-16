@@ -12,10 +12,14 @@ module.exports = (sequelize, DataTypes) => {
       Notifications.belongsTo(models.Subscriptions, {
         foreignKey: 'subscriptionId',
       });
+      Notifications.belongsTo(models.Users, {
+        foreignKey: 'userId',
+      });
     }
   }
   Notifications.init(
     {
+      userId: DataTypes.INTEGER,
       replyId: DataTypes.INTEGER,
       isViewed: DataTypes.BOOLEAN,
       subscriptionId: DataTypes.INTEGER,

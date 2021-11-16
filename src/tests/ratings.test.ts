@@ -21,22 +21,19 @@ describe('Testing Ratings', () => {
         {
           id: 1,
           userId: 1,
-          upVote: true,
-          downVote: false,
+          vote: 'up',
           modelId: 1,
         },
         {
-          id: 1,
+          id: 2,
           userId: 1,
-          upVote: true,
-          downVote: false,
+          vote: 'up',
           modelId: 1,
         },
         {
-          id: 1,
+          id: 3,
           userId: 1,
-          upVote: true,
-          downVote: false,
+          vote: 'up',
           modelId: 1,
         },
       ]);
@@ -68,7 +65,7 @@ describe('Testing Ratings', () => {
     it('response Create rating', async () => {
       const ratingData: CreateRating2Dto = {
         vote: 'up',
-        modelId: 4,
+        modelId: 1,
         type: 'question',
       };
 
@@ -80,8 +77,8 @@ describe('Testing Ratings', () => {
         id: 1,
         userId: 1,
         upVote: 0,
+        modelId: 1,
         downVote: 0,
-        rating: 'Test rating',
       });
 
       (Sequelize as any).authenticate = jest.fn();
@@ -96,7 +93,7 @@ describe('Testing Ratings', () => {
 
   describe('[PUT] /ratings/:id', () => {
     it('response Update rating', async () => {
-      const ratingId = 2;
+      const ratingId = 1;
       const ratingData: UpdateRatingDto = {
         vote: 'down',
       };
@@ -106,12 +103,18 @@ describe('Testing Ratings', () => {
 
       ratings.findByPk = jest.fn().mockReturnValue({
         id: ratingId,
-        rating: 'rating Data email',
+        userId: 1,
+        upVote: 0,
+        modelId: 1,
+        downVote: 0,
       });
       ratings.update = jest.fn().mockReturnValue([1]);
       ratings.findByPk = jest.fn().mockReturnValue({
         id: ratingId,
-        rating: 'rating Data email',
+        userId: 1,
+        upVote: 0,
+        modelId: 1,
+        downVote: 0,
       });
 
       (Sequelize as any).authenticate = jest.fn();

@@ -235,7 +235,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/questions'
+              $ref: '#/components/schemas/questionsUpdate'
      
       responses:
         200:
@@ -257,7 +257,7 @@ paths:
       parameters:
       - name: id
         in: path
-        description: user Id
+        description: question Id
         required: true
         type: integer
       responses:
@@ -698,7 +698,24 @@ paths:
         500:
           description: 'Server Error'     
           
-          
+  /notifications/user/{id}:
+    get:
+      tags:
+      - notifications
+      summary: Find user notifications By Id
+      parameters:
+      - name: id
+        in: path
+        description: user Id
+        required: true
+        type: integer
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'      
 # [GET] comments
   /comments:
     get:
@@ -875,6 +892,17 @@ components:
         title:
           type: string
           description: title of question
+
+    questionsUpdate:
+      title: question data
+      type: object
+      required:
+          - question
+      properties:
+        question:
+          type: string
+          description: question Question
+    
     
     answers:
       title: reply data
@@ -907,7 +935,7 @@ components:
           - ratings
       properties:
         type:
-          type: string [question or reply]
+          type: string [question|reply]
           description: question or reply
         vote:
           type: sting [up|down]

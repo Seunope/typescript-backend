@@ -6,7 +6,7 @@ import validationMiddleware from '@middlewares/validation.middleware';
 import { CreateReplyDto, CreateDataReplyDto, UpdateReplyDto } from '@dtos/answers.dto';
 
 class ReplyRoute implements Routes {
-  public path = '/reply';
+  public path = '/answers';
   public router = Router();
   public replyController = new ReplyController();
 

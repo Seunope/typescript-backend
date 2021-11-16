@@ -1,4 +1,5 @@
 import DB from '@databases';
+import models from '@utils/models';
 import { isEmpty } from '@utils/util';
 import { HttpException } from '@exceptions/HttpException';
 import { Question } from '@/interfaces/questions.interface';
@@ -7,19 +8,23 @@ import { Subscription } from '@interfaces/subscriptions.interface';
 import constants from '@/utils/constants';
 
 class SubscriptionService {
-  public subscriptions = DB.Subscriptions;
-  public question = DB.Questions;
+  // public subscriptions = DB.Subscriptions;
+  // public question = DB.Questions;
+
+  public subscriptions = models.Subscriptions;
+  public question = models.Questions;
+  private relationship = { include: [{ model: models.Users }, { model: models.Questions } ]};
 
   public async findAllSubscription(): Promise<Subscription[]> {
-    const allSubscription: Subscription[] = await this.subscriptions.findAll();
+    const allSubscription: Subscription[] = await this.subscriptions.findAll({ ...this.relationship });
     return allSubscription;
   }
 
   public async findSubscriptionById(SubscriptionId: number): Promise<Subscription> {
     if (isEmpty(SubscriptionId)) throw new HttpException(400, constants.EMPTY_ID);
 
-    const findSubscription: Subscription = await this.subscriptions.findByPk(SubscriptionId);
-    if (!findSubscription) throw new HttpException(409, "You're not Subscription");
+    const findSubscription: Subscription = await this.subscriptions.findByPk(SubscriptionId, this.relationship);
+    if (!findSubscription) throw new HttpException(409, "You're not Subscribed");
 
     return findSubscription;
   }

@@ -1,5 +1,6 @@
 import DB from '@databases';
 import { isEmpty } from '@utils/util';
+import models from '@utils/models';
 import { Reply } from '@/interfaces/answers.interface';
 import { HttpException } from '@exceptions/HttpException';
 import { Notification } from '@interfaces/notifications.interface';
@@ -8,12 +9,13 @@ import { CreateNotificationDto, UpdateNotificationDto } from '@dtos/notification
 import constants from '@/utils/constants';
 
 class NotificationService {
-  public notifications = DB.Notifications;
-  public subscriptions = DB.Subscriptions;
-  public reply = DB.Answers;
+  public reply = models.Answers;
+  public notifications = models.Notifications;
+  public subscriptions = models.Subscriptions;
+  private relationship = { include: { model: models.Subscriptions } };
 
   public async findAllNotification(): Promise<Notification[]> {
-    const allNotification: Notification[] = await this.notifications.findAll();
+    const allNotification: Notification[] = await this.notifications.findAll({ ...this.relationship });
     return allNotification;
   }
 
@@ -24,6 +26,12 @@ class NotificationService {
     if (!findNotification) throw new HttpException(409, constants.NOT_FOUND);
 
     return findNotification;
+  }
+
+  public async findUserNotificationsById(UserId: number): Promise<Notification[]> {
+    const userNotifications: Notification[] = await this.notifications.findAll({ where: { userId: UserId } });
+
+    return userNotifications;
   }
 
   public async createNotification(NotificationData: CreateNotificationDto): Promise<Notification> {

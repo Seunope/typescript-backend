@@ -24,6 +24,14 @@ module.exports = {
         },
         allowNull: false,
       },
+      userId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'users',
+          key: 'id',
+        },
+        allowNull: false,
+      },
       isViewed: {
         type: Sequelize.BOOLEAN,
       },

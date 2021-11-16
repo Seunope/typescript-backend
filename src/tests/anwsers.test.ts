@@ -12,8 +12,8 @@ afterAll(async () => {
 });
 
 describe('Testing Reply', () => {
-  describe('[GET] /reply', () => {
-    it('response findAll replys', async () => {
+  describe('[GET] /answers', () => {
+    it('response findAll answers', async () => {
       const replysRoute = new ReplyRoute();
       const replys = replysRoute.replyController.replyService.reply;
 
@@ -23,6 +23,7 @@ describe('Testing Reply', () => {
           userId: 1,
           upVote: 0,
           downVote: 0,
+          questionId: 1,
           reply: 'a@email.com',
         },
         {
@@ -30,6 +31,7 @@ describe('Testing Reply', () => {
           userId: 1,
           upVote: 0,
           downVote: 0,
+          questionId: 1,
           reply: 'a3@email.com',
         },
         {
@@ -37,6 +39,7 @@ describe('Testing Reply', () => {
           userId: 1,
           upVote: 0,
           downVote: 0,
+          questionId: 1,
           reply: '3@email.com',
         },
       ]);
@@ -47,7 +50,7 @@ describe('Testing Reply', () => {
     });
   });
 
-  describe('[GET] /reply/:id', () => {
+  describe('[GET] /answers/:id', () => {
     it('response findOne reply', async () => {
       const replyId = 1;
 
@@ -56,7 +59,7 @@ describe('Testing Reply', () => {
 
       replys.findByPk = jest.fn().mockReturnValue({
         id: 1,
-        reply: 'replyId',
+        reply: 'my cool message',
       });
 
       (Sequelize as any).authenticate = jest.fn();
@@ -65,10 +68,10 @@ describe('Testing Reply', () => {
     });
   });
 
-  describe('[POST] /reply', () => {
+  describe('[POST] /answers', () => {
     it('response Create reply', async () => {
       const replyData: CreateDataReplyDto = {
-        reply: 'Test reply',
+        reply: 'Test answers',
         questionId: 1,
       };
 
@@ -94,7 +97,7 @@ describe('Testing Reply', () => {
     });
   });
 
-  describe('[PUT] /reply/:id', () => {
+  describe('[PUT] /answers/:id', () => {
     it('response Update reply', async () => {
       const replyId = 1;
       const replyData: UpdateReplyDto = {
@@ -111,7 +114,10 @@ describe('Testing Reply', () => {
       });
       replys.update = jest.fn().mockReturnValue([1]);
       replys.findByPk = jest.fn().mockReturnValue({
+        userId: 1,
+        upVote: 0,
         id: replyId,
+        downVote: 0,
         reply: 'reply Data email',
       });
 
@@ -125,7 +131,7 @@ describe('Testing Reply', () => {
     });
   });
 
-  describe('[DELETE] /reply/:id', () => {
+  describe('[DELETE] /answers/:id', () => {
     it('response Delete reply', async () => {
       const replyId = 1;
 
@@ -133,7 +139,10 @@ describe('Testing Reply', () => {
       const replys = replysRoute.replyController.replyService.reply;
 
       replys.findByPk = jest.fn().mockReturnValue({
+        userId: 1,
+        upVote: 0,
         id: replyId,
+        downVote: 0,
         reply: 'reply Data email',
       });
 

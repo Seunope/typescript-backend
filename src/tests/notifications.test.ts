@@ -1,9 +1,9 @@
 import { Sequelize } from 'sequelize';
 import request from 'supertest';
 import App from '@/app';
-import { CreateNotificationDto, UpdateNotificationDto } from '@dtos/notifications.dto';
-import NotificationRoute from '@routes/notifications.route';
 import { config } from 'dotenv';
+import NotificationRoute from '@routes/notifications.route';
+import { CreateDataNotificationDto, CreateNotificationDto, UpdateNotificationDto } from '@dtos/notifications.dto';
 
 config();
 
@@ -54,6 +54,7 @@ describe('Testing Notifications', () => {
       notifications.findByPk = jest.fn().mockReturnValue({
         id: 1,
         replyId: 1,
+        userId: 1,
         subscriptionId: 4,
         isViewed: false,
       });
@@ -66,7 +67,7 @@ describe('Testing Notifications', () => {
 
   describe('[POST] /notifications', () => {
     it('response Create notification', async () => {
-      const notificationData: CreateNotificationDto = {
+      const notificationData: CreateDataNotificationDto = {
         replyId: 2,
         subscriptionId: 2,
         isViewed: false,

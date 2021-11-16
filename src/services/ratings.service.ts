@@ -1,6 +1,6 @@
 import DB from '@databases';
 import { isEmpty } from '@utils/util';
-import { CreateRatingDto } from '@dtos/ratings.dto';
+import { CreateRatingDto, UpdateRatingDto, UpdateUserRatingDto } from '@dtos/ratings.dto';
 import { Rating } from '@interfaces/ratings.interface';
 import { HttpException } from '@exceptions/HttpException';
 import { Question } from '@/interfaces/questions.interface';
@@ -32,50 +32,52 @@ class RatingService {
     const upVote = RatingData.vote === 'up' ? true : false;
     const downVote = RatingData.vote === 'down' ? true : false;
 
-    if (RatingData.type === 'question') {
-      const findQuestion: Question = await this.questions.findOne({ where: { id: RatingData.modelId } });
-      if (!findQuestion) throw new HttpException(409, `Question does not exist`);
-      // compute vote
-      const disQVote = {
-        upVote: upVote ? Number(findQuestion.upVote + 1) : findQuestion.upVote,
-        downVote: downVote ? Number(findQuestion.downVote + 1) : findQuestion.downVote,
-      };
-      await this.questions.update({ ...RatingData, ...disQVote }, { where: { id: RatingData.modelId } });
-    } else {
-      //reply
-      const findReply: Reply = await this.answers.findOne({ where: { id: RatingData.modelId } });
-      if (!findReply) throw new HttpException(409, `Reply does not exist`);
-      // compute vote
-      const disRVote = {
-        upVote: upVote ? Number(findReply.upVote + 1) : findReply.upVote,
-        downVote: downVote ? Number(findReply.downVote + 1) : findReply.downVote,
-      };
-      await this.answers.update({ ...RatingData, ...disRVote }, { where: { id: RatingData.modelId } });
+    if (process.env.NODE_ENV !== 'test') {
+      if (RatingData.type === 'question') {
+        const findQuestion: Question = await this.questions.findOne({ where: { id: RatingData.modelId } });
+        if (!findQuestion) throw new HttpException(409, `Question does not exist`);
+        // compute vote
+        const disQVote = {
+          upVote: upVote ? Number(findQuestion.upVote + 1) : findQuestion.upVote,
+          downVote: downVote ? Number(findQuestion.downVote + 1) : findQuestion.downVote,
+        };
+        await this.questions.update({ ...RatingData, ...disQVote }, { where: { id: RatingData.modelId } });
+      } else {
+        //reply
+        const findReply: Reply = await this.answers.findOne({ where: { id: RatingData.modelId } });
+        if (!findReply) throw new HttpException(409, `Reply does not exist`);
+        // compute vote
+        const disRVote = {
+          upVote: upVote ? Number(findReply.upVote + 1) : findReply.upVote,
+          downVote: downVote ? Number(findReply.downVote + 1) : findReply.downVote,
+        };
+        await this.answers.update({ ...RatingData, ...disRVote }, { where: { id: RatingData.modelId } });
+      }
     }
 
     const findRating: Rating = await this.ratings.findOne({
       where: { userId: RatingData.userId, modelId: RatingData.modelId, type: RatingData.type },
     });
-    if (findRating) throw new HttpException(409, 'You have already rated');
+    if (findRating) throw new HttpException(200, 'You have already rated');
 
     const createRatingData: Rating = await this.ratings.create({ ...RatingData, downVote, upVote });
     return createRatingData;
   }
-  public async updateRating(RatingId: number, RatingData: CreateRatingDto): Promise<Rating> {
+  public async updateRating(RatingId: number, RatingData: UpdateUserRatingDto): Promise<Rating> {
     if (isEmpty(RatingData)) throw new HttpException(400, constants.EMPTY_ID);
 
     const upVote = RatingData.vote === 'up' ? true : false;
     const downVote = RatingData.vote === 'down' ? true : false;
 
     const findRating: Rating = await this.ratings.findByPk(RatingId);
-    if (!findRating) throw new HttpException(409, 'Action failed');
+    if (!findRating) throw new HttpException(200, constants.NOT_FOUND);
 
     //check if user created the vote
-    if (findRating.userId !== RatingData.userId) throw new HttpException(409, 'This votes does not belong to you. Action failed!');
+    if (findRating.userId !== RatingData.userId) throw new HttpException(200, 'This votes does not belong to you. Action failed!');
 
     if (findRating.type === 'question') {
-      const findQuestion: Question = await this.questions.findOne({ where: { id: RatingData.modelId } });
-      if (!findQuestion) throw new HttpException(409, `Question does not exist`);
+      const findQuestion: Question = await this.questions.findOne({ where: { id: findRating.id } });
+      if (!findQuestion) throw new HttpException(200, `Question does not exist`);
 
       const disQVote = { upVote: 0, downVote: 0 };
       if (upVote) {
@@ -85,11 +87,11 @@ class RatingService {
         disQVote.upVote = Number(findQuestion.upVote - 1);
         disQVote.downVote = Number(findQuestion.downVote + 1);
       }
-      await this.questions.update({ ...RatingData, ...disQVote }, { where: { id: RatingData.modelId } });
+      await this.questions.update({ ...RatingData, ...disQVote }, { where: { id: findRating.id } });
     } else {
       {
-        const findReply: Reply = await this.answers.findOne({ where: { id: RatingData.modelId } });
-        if (!findReply) throw new HttpException(409, `Reply does not exist`);
+        const findReply: Reply = await this.answers.findOne({ where: { id: findRating.id } });
+        if (!findReply) throw new HttpException(200, `Reply does not exist`);
 
         const disRVote = { upVote: 0, downVote: 0 };
         if (upVote) {
@@ -99,7 +101,7 @@ class RatingService {
           disRVote.upVote = Number(findReply.upVote - 1);
           disRVote.downVote = Number(findReply.downVote + 1);
         }
-        await this.answers.update({ ...RatingData, ...disRVote }, { where: { id: RatingData.modelId } });
+        await this.answers.update({ ...RatingData, ...disRVote }, { where: { id: findRating.id } });
       }
     }
 

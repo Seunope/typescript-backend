@@ -1,10 +1,11 @@
 import { Sequelize, DataTypes, Model, Optional } from 'sequelize';
 import { Notification } from '@interfaces/notifications.interface';
 
-export type NotificationCreationAttributes = Optional<Notification, 'id' | 'subscriptionId' | 'replyId' | 'isViewed'>;
+export type NotificationCreationAttributes = Optional<Notification, 'id' | 'subscriptionId' | 'userId' | 'replyId' | 'isViewed'>;
 
 export class NotificationModel extends Model<Notification, NotificationCreationAttributes> implements Notification {
   id: number;
+  userId: number;
   replyId: number;
   isViewed: boolean;
   subscriptionId: number;
@@ -14,11 +15,6 @@ export class NotificationModel extends Model<Notification, NotificationCreationA
 }
 
 export default function (sequelize: Sequelize): typeof NotificationModel {
-
-  // static associate (Model){
-
-  // }
- 
   NotificationModel.init(
     {
       id: {
@@ -28,6 +24,10 @@ export default function (sequelize: Sequelize): typeof NotificationModel {
       },
       subscriptionId: {
         allowNull: true,
+        type: DataTypes.INTEGER,
+      },
+      userId: {
+        allowNull: false,
         type: DataTypes.INTEGER,
       },
       replyId: {

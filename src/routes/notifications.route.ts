@@ -3,7 +3,7 @@ import { Routes } from '@interfaces/routes.interface';
 import authMiddleware from '@middlewares/auth.middleware';
 import validationMiddleware from '@middlewares/validation.middleware';
 import NotificationsController from '@controllers/notifications.controller';
-import { CreateNotificationDto, UpdateNotificationDto } from '@dtos/notifications.dto';
+import { CreateDataNotificationDto, UpdateNotificationDto } from '@dtos/notifications.dto';
 
 class NotificationsRoute implements Routes {
   public path = '/notifications';
@@ -17,10 +17,11 @@ class NotificationsRoute implements Routes {
   private initializeRoutes() {
     this.router.get(`${this.path}`, this.notificationsController.getNotifications);
     this.router.get(`${this.path}/:id(\\d+)`, this.notificationsController.getNotificationById);
+    this.router.get(`${this.path}/user/:id(\\d+)`, this.notificationsController.getUserNotificationById);
     this.router.post(
       `${this.path}`,
       authMiddleware,
-      validationMiddleware(CreateNotificationDto, 'body'),
+      validationMiddleware(CreateDataNotificationDto, 'body'),
       this.notificationsController.createNotification,
     );
     this.router.put(
