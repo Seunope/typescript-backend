@@ -25,7 +25,7 @@ export default function (sequelize: Sequelize): typeof ReplyModel {
       },
       reply: {
         allowNull: false,
-        type: DataTypes.STRING(45),
+        type: DataTypes.STRING(225),
       },
       questionId: {
         allowNull: false,

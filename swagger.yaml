@@ -761,6 +761,9 @@ components:
         question:
           type: string
           description: question Question
+        tags:
+          type: string
+          description: question tags separated by commas
     
     reply:
       title: reply data

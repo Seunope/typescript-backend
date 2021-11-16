@@ -16,9 +16,10 @@ module.exports = (sequelize, DataTypes) => {
   }
   Questions.init(
     {
-      question: DataTypes.STRING,
+      tags: DataTypes.STRING,
       userId: DataTypes.INTEGER,
       upVote: DataTypes.INTEGER,
+      question: DataTypes.STRING,
       DownVote: DataTypes.INTEGER,
     },
     {

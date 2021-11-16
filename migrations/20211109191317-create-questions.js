@@ -10,6 +10,11 @@ module.exports = {
       },
       question: {
         type: Sequelize.STRING,
+        allowNull: false,
+      },
+      tags: {
+        type: Sequelize.STRING,
+        allowNull: true,
       },
       userId: {
         type: Sequelize.INTEGER,
