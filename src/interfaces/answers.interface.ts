@@ -1,5 +1,5 @@
 export interface Reply {
-  id: number,
+  id: number;
   reply: string;
   userId: number;
   upVote: number;

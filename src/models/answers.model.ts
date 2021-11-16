@@ -45,7 +45,7 @@ export default function (sequelize: Sequelize): typeof ReplyModel {
       },
     },
     {
-      tableName: 'answers',
+      tableName: 'Answers',
       sequelize,
     },
   );

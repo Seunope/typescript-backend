@@ -4,6 +4,7 @@ import { logger } from '@utils/logger';
 import UserModel from '@models/users.model';
 import ReplyModel from '@models/answers.model';
 import RatingModel from '@models/ratings.model';
+import CommentModel from '@models/comments.model';
 import QuestionModel from '@models/questions.model';
 import { dbConfig } from '@interfaces/db.interface';
 import NotificationModel from '@models/notifications.model';
@@ -37,6 +38,7 @@ const DB = {
   Users: UserModel(sequelize),
   Ratings: RatingModel(sequelize),
   Answers: ReplyModel(sequelize),
+  Comments: CommentModel(sequelize),
   Questions: QuestionModel(sequelize),
   Notifications: NotificationModel(sequelize),
   Subscriptions: SubscriptionModel(sequelize),

@@ -13,14 +13,17 @@ tags:
   description: users API
 - name: questions
   description: questions API
-- name: reply
-  description: reply question API
+- name: answers
+  description: answers question API
+- name: comments
+  description: comments  API
 - name: ratings
   description: rate question and reply API
 - name: subscriptions
   description: subscriptions  API
 - name: notifications
   description: notifications  API
+
 
 paths:
 # Login
@@ -286,11 +289,11 @@ paths:
           description: 'Server Error'
 
  # [GET] reply
-  /reply:
+  /answers:
     get:
       tags:
-      - reply
-      summary: Find All reply
+      - answers
+      summary: Find All answers
       responses:
         200:
           description: 'OK'
@@ -300,13 +303,13 @@ paths:
       security:
         - bearerAuth: []
       tags:
-      - reply
-      summary: Post reply
+      - answers
+      summary: Post answers
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/reply'
+              $ref: '#/components/schemas/answers'
       responses:
         201:
           description: 'Created'
@@ -317,11 +320,11 @@ paths:
         500:
           description: 'Server Error'  
   # [GET] ratings/id
-  /reply/{id}:
+  /answers/{id}:
     get:
       tags:
-      - reply
-      summary: Find reply By Id
+      - answers
+      summary: Find answers By Id
       parameters:
       - name: id
         in: path
@@ -336,13 +339,13 @@ paths:
         500:
           description: 'Server Error'
 
-    # [PUT] reply/id
+    # [PUT] answers/id
     put:
       security:
         - bearerAuth: []
       tags:
-      - reply
-      summary: Update reply By Id
+      - answers
+      summary: Update answers By Id
       parameters:
       - name: id
         in: path
@@ -353,7 +356,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/replyUpdate'
+              $ref: '#/components/schemas/answersUpdate'
      
       responses:
         200:
@@ -365,13 +368,13 @@ paths:
         500:
           description: 'Server Error'
 
-    # [DELETE] reply/id
+    # [DELETE] answers/id
     delete:
       security:
         - bearerAuth: []
       tags:
-      - reply
-      summary: Delete reply By Id
+      - answers
+      summary: Delete answers By Id
       parameters:
       - name: id
         in: path
@@ -693,7 +696,111 @@ paths:
         409:
           description: 'Conflict'
         500:
-          description: 'Server Error'       
+          description: 'Server Error'     
+          
+          
+# [GET] comments
+  /comments:
+    get:
+      tags:
+      - comments
+      summary: Find All comments
+      responses:
+        200:
+          description: 'OK'
+        500:
+          description: 'Server Error'
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+      - comments
+      summary: Post comments
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/comments'
+      responses:
+        201:
+          description: 'Created'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'  
+
+  # [GET] comments/id
+  /comments/{id}:
+    get:
+      tags:
+      - comments
+      summary: Find comments By Id
+      parameters:
+      - name: id
+        in: path
+        description: comments Id
+        required: true
+        type: integer
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+    # [PUT] comments/id
+    put:
+      security:
+        - bearerAuth: []
+      tags:
+      - comments
+      summary: Update comment By Id
+      parameters:
+      - name: id
+        in: path
+        description: rate Id
+        required: true
+        type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/commentsUpdate'
+     
+      responses:
+        200:
+          description: 'OK'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+    # [DELETE] comments/id
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+      - comments
+      summary: Delete comments By Id
+      parameters:
+      - name: id
+        in: path
+        description: comments Id
+        required: true
+        type: integer
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error' 
+
       
 components:
   securitySchemes:
@@ -769,29 +876,29 @@ components:
           type: string
           description: title of question
     
-    reply:
+    answers:
       title: reply data
       type: object
       required:
-          - reply
+          - answer
           - questionId
       properties:
         reply:
           type: string
-          description: reply Question
+          description: answers Question
         questionId:
           type: integer
           description: Question
       
-    replyUpdate:
-      title: reply update data
+    answersUpdate:
+      title: answer update data
       type: object
       required:
           - reply
       properties:
         reply:
           type: string
-          description: reply Question  
+          description: answer Question  
 
     ratings:
       title: rating data
@@ -872,5 +979,29 @@ components:
           type: boolean
           description: is viewed
  
+    comments:
+      title: create comment data
+      type: object
+      required:
+        - message
+        - answerId
+      properties:
+        isViewed:
+          message: string
+          description: is viewed
+        answerId:
+          type: integer
+          description: is viewed
+
+    commentsUpdate:
+      title: update comment data
+      type: object
+      required:
+        - message
+      properties:
+        isViewed:
+          message: string
+          description: is viewed
+  
            
      
