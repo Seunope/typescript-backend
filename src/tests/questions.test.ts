@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize';
 import request from 'supertest';
 import App from '@/app';
-import { SetQuestionDto } from '@dtos/questions.dto';
+import { SetQuestionDto, UpdateQuestionDto } from '@dtos/questions.dto';
 import QuestionRoute from '@routes/questions.route';
 import { config } from 'dotenv';
 
@@ -23,21 +23,27 @@ describe('Testing Questions', () => {
           userId: 1,
           upVote: 2,
           downVote: 3,
-          question: 'a@email.com',
+          tags: 'java, html',
+          question: 'My first question',
+          title: 'How to user maps for db connection',
         },
         {
           id: 2,
           userId: 1,
           upVote: 2,
           downVote: 3,
-          question: 'a3@email.com',
+          tags: 'java, html',
+          question: 'My first question',
+          title: 'How to user maps for db connection',
         },
         {
           id: 3,
           userId: 1,
           upVote: 0,
           downVote: 3,
-          question: '3@email.com',
+          tags: 'java, html',
+          question: 'My first question',
+          title: 'How to user maps for db connection',
         },
       ]);
 
@@ -74,10 +80,12 @@ describe('Testing Questions', () => {
 
       questions.findByPk = jest.fn().mockReturnValue({
         id: 1,
-        question: 'My first question',
         upVote: 0,
         userId: 1,
         downVote: 0,
+        tags: 'java, html',
+        question: 'My first question',
+        title: 'How to user maps for db connection',
         createdAt: '2021-11-14T12:11:42.000Z',
         updatedAt: '2021-11-14T12:11:42.000Z',
       });
@@ -91,7 +99,9 @@ describe('Testing Questions', () => {
   describe('[POST] /questions', () => {
     it('response Create question', async () => {
       const questionData: SetQuestionDto = {
-        question: 'Test question',
+        tags: 'java, html',
+        question: 'My first question',
+        title: 'How to user maps for db connection',
       };
 
       const questionsRoute = new QuestionRoute();
@@ -103,7 +113,9 @@ describe('Testing Questions', () => {
         userId: 1,
         upVote: 0,
         downVote: 0,
-        question: 'Test question',
+        tags: 'java, html',
+        question: 'My first question',
+        title: 'How to user maps for db connection',
       });
 
       (Sequelize as any).authenticate = jest.fn();
@@ -119,7 +131,7 @@ describe('Testing Questions', () => {
   describe('[PUT] /questions/:id', () => {
     it('response Update question', async () => {
       const questionId = 1;
-      const questionData: SetQuestionDto = {
+      const questionData: UpdateQuestionDto = {
         question: 'Test question',
       };
 

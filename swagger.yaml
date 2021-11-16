@@ -757,6 +757,7 @@ components:
       type: object
       required:
           - question
+          - title
       properties:
         question:
           type: string
@@ -764,6 +765,9 @@ components:
         tags:
           type: string
           description: question tags separated by commas
+        title:
+          type: string
+          description: title of question
     
     reply:
       title: reply data

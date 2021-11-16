@@ -3,11 +3,12 @@ import { UserModel } from './users.model';
 import { Question } from '@interfaces/questions.interface';
 import DB from '@/databases';
 
-export type QuestionCreationAttributes = Optional<Question, 'id' | 'question' | 'upVote' | 'downVote' | 'userId'>;
+export type QuestionCreationAttributes = Optional<Question, 'id' | 'tags' | 'title' | 'question' | 'upVote' | 'downVote' | 'userId'>;
 
 export class QuestionModel extends Model<Question, QuestionCreationAttributes> implements Question {
   id: number;
   tags: string;
+  title: string;
   userId: number;
   upVote: number;
   question: string;
@@ -49,6 +50,10 @@ export default function (sequelize: Sequelize): typeof QuestionModel {
       question: {
         allowNull: false,
         type: DataTypes.STRING(225),
+      },
+      title: {
+        allowNull: false,
+        type: DataTypes.STRING(100),
       },
       tags: {
         allowNull: false,

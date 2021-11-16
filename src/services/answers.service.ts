@@ -1,15 +1,15 @@
 import DB from '@databases';
 import { isEmpty } from '@utils/util';
-import { Reply } from '@interfaces/replies.interface';
+import { Reply } from '@interfaces/answers.interface';
 import { HttpException } from '@exceptions/HttpException';
 import { Question } from '@/interfaces/questions.interface';
-import { CreateReplyDto, UpdateReplyDto } from '@dtos/replies.dto';
+import { CreateReplyDto, UpdateReplyDto } from '@dtos/answers.dto';
 import { Subscription } from '@/interfaces/subscriptions.interface';
 import NotificationService from './notifications.service';
 import constants from '@/utils/constants';
 
 class ReplyService {
-  public reply = DB.Replies;
+  public reply = DB.Answers;
   public question = DB.Questions;
   public subscription = DB.Subscriptions;
 

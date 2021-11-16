@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import { Routes } from '@interfaces/routes.interface';
 import authMiddleware from '@middlewares/auth.middleware';
-import ReplyController from '@controllers/replies.controller';
+import ReplyController from '@controllers/answers.controller';
 import validationMiddleware from '@middlewares/validation.middleware';
-import { CreateReplyDto, CreateDataReplyDto, UpdateReplyDto } from '@dtos/replies.dto';
+import { CreateReplyDto, CreateDataReplyDto, UpdateReplyDto } from '@dtos/answers.dto';
 
 class ReplyRoute implements Routes {
   public path = '/reply';

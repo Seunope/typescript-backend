@@ -7,7 +7,7 @@ import IndexRoute from '@routes/index.route';
 import validateEnv from '@utils/validateEnv';
 import UsersRoute from '@routes/users.route';
 import RatingRoute from '@routes/ratings.route';
-import ReplyRoute from './routes/replies.route';
+import ReplyRoute from './routes/answers.route';
 import QuestionsRoute from '@routes/questions.route';
 import NotificationsRoute from './routes/notifications.route';
 import SubscriptionsRoute from '@routes/subscriptions.route';

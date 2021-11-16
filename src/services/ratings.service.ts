@@ -4,13 +4,13 @@ import { CreateRatingDto } from '@dtos/ratings.dto';
 import { Rating } from '@interfaces/ratings.interface';
 import { HttpException } from '@exceptions/HttpException';
 import { Question } from '@/interfaces/questions.interface';
-import { Reply } from '@/interfaces/replies.interface';
+import { Reply } from '@/interfaces/answers.interface';
 import constants from '@/utils/constants';
 
 class RatingService {
   public ratings = DB.Ratings;
   public questions = DB.Questions;
-  public replies = DB.Replies;
+  public answers = DB.Answers;
 
   public async findAllRating(): Promise<Rating[]> {
     const allRating: Rating[] = await this.ratings.findAll();
@@ -43,14 +43,14 @@ class RatingService {
       await this.questions.update({ ...RatingData, ...disQVote }, { where: { id: RatingData.modelId } });
     } else {
       //reply
-      const findReply: Reply = await this.replies.findOne({ where: { id: RatingData.modelId } });
+      const findReply: Reply = await this.answers.findOne({ where: { id: RatingData.modelId } });
       if (!findReply) throw new HttpException(409, `Reply does not exist`);
       // compute vote
       const disRVote = {
         upVote: upVote ? Number(findReply.upVote + 1) : findReply.upVote,
         downVote: downVote ? Number(findReply.downVote + 1) : findReply.downVote,
       };
-      await this.replies.update({ ...RatingData, ...disRVote }, { where: { id: RatingData.modelId } });
+      await this.answers.update({ ...RatingData, ...disRVote }, { where: { id: RatingData.modelId } });
     }
 
     const findRating: Rating = await this.ratings.findOne({
@@ -88,7 +88,7 @@ class RatingService {
       await this.questions.update({ ...RatingData, ...disQVote }, { where: { id: RatingData.modelId } });
     } else {
       {
-        const findReply: Reply = await this.replies.findOne({ where: { id: RatingData.modelId } });
+        const findReply: Reply = await this.answers.findOne({ where: { id: RatingData.modelId } });
         if (!findReply) throw new HttpException(409, `Reply does not exist`);
 
         const disRVote = { upVote: 0, downVote: 0 };
@@ -99,7 +99,7 @@ class RatingService {
           disRVote.upVote = Number(findReply.upVote - 1);
           disRVote.downVote = Number(findReply.downVote + 1);
         }
-        await this.replies.update({ ...RatingData, ...disRVote }, { where: { id: RatingData.modelId } });
+        await this.answers.update({ ...RatingData, ...disRVote }, { where: { id: RatingData.modelId } });
       }
     }
 

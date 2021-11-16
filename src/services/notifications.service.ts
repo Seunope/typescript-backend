@@ -1,6 +1,6 @@
 import DB from '@databases';
 import { isEmpty } from '@utils/util';
-import { Reply } from '@/interfaces/replies.interface';
+import { Reply } from '@/interfaces/answers.interface';
 import { HttpException } from '@exceptions/HttpException';
 import { Notification } from '@interfaces/notifications.interface';
 import { Subscription } from '@/interfaces/subscriptions.interface';
@@ -10,7 +10,7 @@ import constants from '@/utils/constants';
 class NotificationService {
   public notifications = DB.Notifications;
   public subscriptions = DB.Subscriptions;
-  public reply = DB.Replies;
+  public reply = DB.Answers;
 
   public async findAllNotification(): Promise<Notification[]> {
     const allNotification: Notification[] = await this.notifications.findAll();

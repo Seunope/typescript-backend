@@ -1,8 +1,8 @@
 import { Sequelize } from 'sequelize';
 import request from 'supertest';
 import App from '@/app';
-import { CreateDataReplyDto, UpdateReplyDto } from '@dtos/replies.dto';
-import ReplyRoute from '@routes/replies.route';
+import { CreateDataReplyDto, UpdateReplyDto } from '@dtos/answers.dto';
+import ReplyRoute from '@routes/answers.route';
 import { config } from 'dotenv';
 
 config();
@@ -86,7 +86,11 @@ describe('Testing Reply', () => {
 
       (Sequelize as any).authenticate = jest.fn();
       const app = new App([replysRoute]);
-      return request(app.getServer()).post(`${replysRoute.path}`).set('Authorization', `Bearer ${process.env.TEST_TOKEN}`).send(replyData).expect(201);
+      return request(app.getServer())
+        .post(`${replysRoute.path}`)
+        .set('Authorization', `Bearer ${process.env.TEST_TOKEN}`)
+        .send(replyData)
+        .expect(201);
     });
   });
 
@@ -113,7 +117,11 @@ describe('Testing Reply', () => {
 
       (Sequelize as any).authenticate = jest.fn();
       const app = new App([replysRoute]);
-      return request(app.getServer()).put(`${replysRoute.path}/${replyId}`).set('Authorization', `Bearer ${process.env.TEST_TOKEN}`).send(replyData).expect(200);
+      return request(app.getServer())
+        .put(`${replysRoute.path}/${replyId}`)
+        .set('Authorization', `Bearer ${process.env.TEST_TOKEN}`)
+        .send(replyData)
+        .expect(200);
     });
   });
 

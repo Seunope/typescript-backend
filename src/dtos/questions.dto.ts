@@ -5,6 +5,12 @@ export class CreateQuestionDto {
   @IsString()
   public question: string;
 
+  @IsString()
+  public tags: string;
+
+  @IsString()
+  public title: string;
+
   @IsNumber()
   // @Min(-90)
   // @Max(90)
@@ -21,6 +27,17 @@ export class CreateQuestionDto {
 }
 
 export class SetQuestionDto {
+  @IsString()
+  public question: string;
+
+  @IsString()
+  public tags: string;
+
+  @IsString()
+  public title: string;
+}
+
+export class UpdateQuestionDto {
   @IsString()
   public question: string;
 }

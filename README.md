@@ -16,8 +16,8 @@ notification when the question is answered)
 
 ## Modules
 **Questions** Questions asked by user
-**Replies** Answer to questions
-**Comment** Handle comments on questions and replies(answer)
+**answers** Answer to questions
+**Comment** Handle comments on questions and answers(answer)
 **Subscriptions** Subscribe to question reply(answer)
 **Notifications** Is activated when a user answer (reply) a question. Only subscriber gets message
 **Ratings** Questions and Reply (answer) rating

@@ -2,7 +2,7 @@ import config from 'config';
 import Sequelize from 'sequelize';
 import { logger } from '@utils/logger';
 import UserModel from '@models/users.model';
-import ReplyModel from '@models/replies.model';
+import ReplyModel from '@models/answers.model';
 import RatingModel from '@models/ratings.model';
 import QuestionModel from '@models/questions.model';
 import { dbConfig } from '@interfaces/db.interface';
@@ -36,7 +36,7 @@ sequelize.authenticate();
 const DB = {
   Users: UserModel(sequelize),
   Ratings: RatingModel(sequelize),
-  Replies: ReplyModel(sequelize),
+  Answers: ReplyModel(sequelize),
   Questions: QuestionModel(sequelize),
   Notifications: NotificationModel(sequelize),
   Subscriptions: SubscriptionModel(sequelize),

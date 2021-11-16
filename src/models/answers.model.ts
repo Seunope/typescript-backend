@@ -1,5 +1,5 @@
 import { Sequelize, DataTypes, Model, Optional } from 'sequelize';
-import { Reply } from '@interfaces/replies.interface';
+import { Reply } from '@interfaces/answers.interface';
 
 export type ReplyCreationAttributes = Optional<Reply, 'id' | 'reply' | 'questionId' | 'userId' | 'upVote' | 'downVote'>;
 
@@ -45,7 +45,7 @@ export default function (sequelize: Sequelize): typeof ReplyModel {
       },
     },
     {
-      tableName: 'replies',
+      tableName: 'answers',
       sequelize,
     },
   );

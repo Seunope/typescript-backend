@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import QuestionsController from '@controllers/questions.controller';
-import { SetQuestionDto } from '@dtos/questions.dto';
+import { SetQuestionDto, UpdateQuestionDto } from '@dtos/questions.dto';
 import { Routes } from '@interfaces/routes.interface';
 import authMiddleware from '@middlewares/auth.middleware';
 import validationMiddleware from '@middlewares/validation.middleware';
@@ -22,7 +22,7 @@ class QuestionsRoute implements Routes {
     this.router.put(
       `${this.path}/:id(\\d+)`,
       authMiddleware,
-      validationMiddleware(SetQuestionDto, 'body', true),
+      validationMiddleware(UpdateQuestionDto, 'body', true),
       this.questionsController.updateQuestion,
     );
     this.router.delete(`${this.path}/:id(\\d+)`, authMiddleware, this.questionsController.deleteQuestion);

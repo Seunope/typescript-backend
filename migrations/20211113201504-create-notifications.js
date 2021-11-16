@@ -19,7 +19,7 @@ module.exports = {
       replyId: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Replies',
+          model: 'answers',
           key: 'id',
         },
         allowNull: false,

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
-import { CreateReplyDto, UpdateReplyDto } from '@dtos/replies.dto';
-import { Reply } from '@interfaces/replies.interface';
-import replyService from '@services/replies.service';
+import { CreateReplyDto, UpdateReplyDto } from '@dtos/answers.dto';
+import { Reply } from '@interfaces/answers.interface';
+import replyService from '@services/answers.service';
 import { RequestWithUser } from '@/interfaces/auth.interface';
 
 class ReplysController {
