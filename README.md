@@ -13,14 +13,6 @@ notification when the question is answered)
 ```
 ***
 
-## Modules
-**Questions** Questions asked by user
-**Answers** Answer to questions
-**Comment** Handle comments on questions and answers
-**Subscriptions** Subscribe to question 
-**Notifications** Is activated when a user answer a question. Only subscriber gets message
-**Ratings** Questions and Answer rating
-
 ## Database Setup
 Create DB called "Korapay" on PhpMyAdmin or another Mysql management software you have on your machine
 
@@ -59,13 +51,20 @@ Go to http://localhost:3000/api-docs to view docs
  `npm run test`
 
  **For some weird reason**  you have to run `npm run test` twice before all test pass.
-
 ## Assumptions
 1. User has msql server install on computer
 2. User runs Node 15.7 or latest.
 3. Only authenticated user can create post, reply, rate and subscribe to question
 4. Unauthenticated user can perform Find all and Find by id operation across all the REST apis
 5. User can rate questions and answers.
+
+## Modules
+1. **Questions** Questions asked by user
+2. **Answers** Answer to questions
+3. **Comment** Handle comments on questions and answers
+4. **Subscriptions** Subscribe to question 
+5. **Notifications** Is activated when a user answer a question. Only subscriber gets message
+6. **Ratings** Questions and Answer rating
 
 ## Requirement not Covered
 None
