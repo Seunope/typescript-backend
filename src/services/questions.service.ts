@@ -1,15 +1,18 @@
 import DB from '@databases';
-import { CreateQuestionDto, SetQuestionDto, } from '@dtos/questions.dto';
+import models from '@utils/models';
+import { CreateQuestionDto, SetQuestionDto } from '@dtos/questions.dto';
 import { HttpException } from '@exceptions/HttpException';
 import { Question } from '@interfaces/questions.interface';
 import { isEmpty } from '@utils/util';
+import { UserModel } from '@/models/users.model';
+import Constants from '@utils/constants';
 
 class QuestionService {
-  public questions = DB.Questions;
+  // public questions = DB.Questions;
+  public questions = models.Questions;
 
   public async findAllQuestion(): Promise<Question[]> {
-    // const allQuestion: Question[] = await this.questions.findAll({ include: { model: DB.Users, as: 'user' } });
-    const allQuestion: Question[] = await this.questions.findAll();
+    const allQuestion: Question[] = await this.questions.findAll({ include: { model: UserModel } });
 
     return allQuestion;
   }
@@ -21,28 +24,29 @@ class QuestionService {
   }
 
   public async findQuestionById(QuestionId: number): Promise<Question> {
-    if (isEmpty(QuestionId)) throw new HttpException(400, "You're not QuestionId");
+    if (isEmpty(QuestionId)) throw new HttpException(400, Constants.EMPTY_ID);
 
     const findQuestion: Question = await this.questions.findByPk(QuestionId);
-    if (!findQuestion) throw new HttpException(409, "You're not Question");
+    if (!findQuestion) throw new HttpException(409, Constants.NOT_FOUND);
 
     return findQuestion;
   }
 
   public async createQuestion(QuestionData: CreateQuestionDto): Promise<Question> {
-    if (isEmpty(QuestionData)) throw new HttpException(400, "You're not QuestionData");
+    if (isEmpty(QuestionData)) throw new HttpException(400, Constants.EMPTY_BODY);
 
     const findQuestion: Question = await this.questions.findOne({ where: { question: QuestionData.question, userId: QuestionData.userId } });
-    if (findQuestion) throw new HttpException(409, `You questions: " ${QuestionData.question}" already exists`);
+    if (findQuestion) throw new HttpException(409, Constants.ALREADY_EXIST);
 
     const createQuestionData: Question = await this.questions.create({ ...QuestionData });
     return createQuestionData;
   }
+
   public async updateQuestion(QuestionId: number, QuestionData: SetQuestionDto): Promise<Question> {
-    if (isEmpty(QuestionData)) throw new HttpException(400, "You're not QuestionData");
+    if (isEmpty(QuestionData)) throw new HttpException(400, Constants.EMPTY_BODY);
 
     const findQuestion: Question = await this.questions.findByPk(QuestionId);
-    if (!findQuestion) throw new HttpException(409, "You're not Question");
+    if (!findQuestion) throw new HttpException(409, Constants.EMPTY_ID);
 
     await this.questions.update({ ...QuestionData }, { where: { id: QuestionId } });
 
@@ -51,10 +55,10 @@ class QuestionService {
   }
 
   public async deleteQuestion(QuestionId: number): Promise<Question> {
-    if (isEmpty(QuestionId)) throw new HttpException(400, 'Not QuestionId');
+    if (isEmpty(QuestionId)) throw new HttpException(400, Constants.EMPTY_ID);
 
     const findQuestion: Question = await this.questions.findByPk(QuestionId);
-    if (!findQuestion) throw new HttpException(409, 'Not Question');
+    if (!findQuestion) throw new HttpException(409, Constants.NOT_FOUND);
 
     await this.questions.destroy({ where: { id: QuestionId } });
 

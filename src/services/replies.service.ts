@@ -6,6 +6,7 @@ import { Question } from '@/interfaces/questions.interface';
 import { CreateReplyDto, UpdateReplyDto } from '@dtos/replies.dto';
 import { Subscription } from '@/interfaces/subscriptions.interface';
 import NotificationService from './notifications.service';
+import constants from '@/utils/constants';
 
 class ReplyService {
   public reply = DB.Replies;
@@ -18,16 +19,16 @@ class ReplyService {
   }
 
   public async findReplyById(ReplyId: number): Promise<Reply> {
-    if (isEmpty(ReplyId)) throw new HttpException(400, 'Wrong input');
+    if (isEmpty(ReplyId)) throw new HttpException(400, constants.EMPTY_ID);
 
     const findReply: Reply = await this.reply.findByPk(ReplyId);
-    if (!findReply) throw new HttpException(409, "You're not Reply");
+    if (!findReply) throw new HttpException(409, constants.NOT_FOUND);
 
     return findReply;
   }
 
   public async createReply(ReplyData: CreateReplyDto): Promise<Reply> {
-    if (isEmpty(ReplyData)) throw new HttpException(400, 'Wrong input');
+    if (isEmpty(ReplyData)) throw new HttpException(400, constants.EMPTY_BODY);
 
     const findQuestion: Question = await this.question.findOne({ where: { id: ReplyData.questionId } });
     if (!findQuestion) throw new HttpException(409, `Question ID: " ${ReplyData.questionId}" is not found`);
@@ -42,7 +43,7 @@ class ReplyService {
         where: { questionId: ReplyData.questionId },
       });
 
-      if (!findSubscription) throw new HttpException(409, 'not found!');
+      if (!findSubscription) throw new HttpException(409, constants.NOT_FOUND);
       const notify = new NotificationService();
       findSubscription.map(async subscription => {
         await notify.createNotification({ replyId: createReplyData.id, subscriptionId: subscription.id, isViewed: false });
@@ -52,10 +53,10 @@ class ReplyService {
     return createReplyData;
   }
   public async updateReply(ReplyId: number, ReplyData: UpdateReplyDto): Promise<Reply> {
-    if (isEmpty(ReplyData)) throw new HttpException(400, 'Wrong input');
+    if (isEmpty(ReplyData)) throw new HttpException(400, constants.EMPTY_ID);
 
     const findReply: Reply = await this.reply.findByPk(ReplyId);
-    if (!findReply) throw new HttpException(409, ' Reply ID not found');
+    if (!findReply) throw new HttpException(409, constants.NOT_FOUND);
 
     await this.reply.update({ ...ReplyData }, { where: { id: ReplyId } });
 
@@ -64,10 +65,10 @@ class ReplyService {
   }
 
   public async deleteReply(ReplyId: number): Promise<Reply> {
-    if (isEmpty(ReplyId)) throw new HttpException(400, 'ReplyId not found');
+    if (isEmpty(ReplyId)) throw new HttpException(400, constants.EMPTY_ID);
 
     const findReply: Reply = await this.reply.findByPk(ReplyId);
-    if (!findReply) throw new HttpException(409, 'Reply not found');
+    if (!findReply) throw new HttpException(409, constants.NOT_FOUND);
 
     await this.reply.destroy({ where: { id: ReplyId } });
 

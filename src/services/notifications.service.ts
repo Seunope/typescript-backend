@@ -5,6 +5,7 @@ import { HttpException } from '@exceptions/HttpException';
 import { Notification } from '@interfaces/notifications.interface';
 import { Subscription } from '@/interfaces/subscriptions.interface';
 import { CreateNotificationDto, UpdateNotificationDto } from '@dtos/notifications.dto';
+import constants from '@/utils/constants';
 
 class NotificationService {
   public notifications = DB.Notifications;
@@ -17,16 +18,16 @@ class NotificationService {
   }
 
   public async findNotificationById(NotificationId: number): Promise<Notification> {
-    if (isEmpty(NotificationId)) throw new HttpException(400, "You're not NotificationId");
+    if (isEmpty(NotificationId)) throw new HttpException(400, constants.EMPTY_ID);
 
     const findNotification: Notification = await this.notifications.findByPk(NotificationId);
-    if (!findNotification) throw new HttpException(409, "You're not Notification");
+    if (!findNotification) throw new HttpException(409, constants.NOT_FOUND);
 
     return findNotification;
   }
 
   public async createNotification(NotificationData: CreateNotificationDto): Promise<Notification> {
-    if (isEmpty(NotificationData)) throw new HttpException(400, 'Input wrong');
+    if (isEmpty(NotificationData)) throw new HttpException(400, constants.EMPTY_BODY);
 
     const findReply: Reply = await this.reply.findOne({ where: { id: NotificationData.replyId } });
     if (!findReply) throw new HttpException(409, `Reply ID: " ${NotificationData.replyId}" is not found`);
@@ -46,10 +47,10 @@ class NotificationService {
   }
 
   public async updateNotification(NotificationId: number, NotificationData: UpdateNotificationDto): Promise<Notification> {
-    if (isEmpty(NotificationData)) throw new HttpException(400, 'Input wrong');
+    if (isEmpty(NotificationData)) throw new HttpException(400, constants.EMPTY_ID);
 
     const findNotification: Notification = await this.notifications.findByPk(NotificationId);
-    if (!findNotification) throw new HttpException(409, 'Not found');
+    if (!findNotification) throw new HttpException(409, constants.NOT_FOUND);
 
     await this.notifications.update({ ...NotificationData }, { where: { id: NotificationId } });
 
@@ -58,10 +59,10 @@ class NotificationService {
   }
 
   public async deleteNotification(NotificationId: number): Promise<Notification> {
-    if (isEmpty(NotificationId)) throw new HttpException(400, 'Not NotificationId');
+    if (isEmpty(NotificationId)) throw new HttpException(400, constants.EMPTY_ID);
 
     const findNotification: Notification = await this.notifications.findByPk(NotificationId);
-    if (!findNotification) throw new HttpException(409, 'Not Notification');
+    if (!findNotification) throw new HttpException(409, constants.NOT_FOUND);
 
     await this.notifications.destroy({ where: { id: NotificationId } });
 

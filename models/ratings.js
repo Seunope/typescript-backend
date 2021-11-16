@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Ratings.init(
     {
-      type: DataTypes.ENUM,
+      type: DataTypes.STRING,
       modelId: DataTypes.INTEGER,
       userId: DataTypes.INTEGER,
       upVote: DataTypes.BOOLEAN,

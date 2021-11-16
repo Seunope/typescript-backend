@@ -5,6 +5,7 @@ import { Rating } from '@interfaces/ratings.interface';
 import { HttpException } from '@exceptions/HttpException';
 import { Question } from '@/interfaces/questions.interface';
 import { Reply } from '@/interfaces/replies.interface';
+import constants from '@/utils/constants';
 
 class RatingService {
   public ratings = DB.Ratings;
@@ -17,16 +18,16 @@ class RatingService {
   }
 
   public async findRatingById(RatingId: number): Promise<Rating> {
-    if (isEmpty(RatingId)) throw new HttpException(400, "You're not RatingId");
+    if (isEmpty(RatingId)) throw new HttpException(400, constants.EMPTY_ID);
 
     const findRating: Rating = await this.ratings.findByPk(RatingId);
-    if (!findRating) throw new HttpException(409, "You're not Rating");
+    if (!findRating) throw new HttpException(409, constants.NOT_FOUND);
 
     return findRating;
   }
 
   public async createRating(RatingData: CreateRatingDto): Promise<Rating> {
-    if (isEmpty(RatingData)) throw new HttpException(400, 'No data provided');
+    if (isEmpty(RatingData)) throw new HttpException(400, constants.EMPTY_BODY);
 
     const upVote = RatingData.vote === 'up' ? true : false;
     const downVote = RatingData.vote === 'down' ? true : false;
@@ -61,7 +62,7 @@ class RatingService {
     return createRatingData;
   }
   public async updateRating(RatingId: number, RatingData: CreateRatingDto): Promise<Rating> {
-    if (isEmpty(RatingData)) throw new HttpException(400, 'No data provided');
+    if (isEmpty(RatingData)) throw new HttpException(400, constants.EMPTY_ID);
 
     const upVote = RatingData.vote === 'up' ? true : false;
     const downVote = RatingData.vote === 'down' ? true : false;
@@ -110,10 +111,10 @@ class RatingService {
   }
 
   public async deleteRating(RatingId: number): Promise<Rating> {
-    if (isEmpty(RatingId)) throw new HttpException(400, 'Action failed');
+    if (isEmpty(RatingId)) throw new HttpException(400, constants.EMPTY_ID);
 
     const findRating: Rating = await this.ratings.findByPk(RatingId);
-    if (!findRating) throw new HttpException(409, 'Action failed');
+    if (!findRating) throw new HttpException(409, constants.NOT_FOUND);
 
     await this.ratings.destroy({ where: { id: RatingId } });
 

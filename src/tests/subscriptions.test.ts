@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize';
 import request from 'supertest';
 import App from '@/app';
-import { SetSubscriptionDto } from '@dtos/subscriptions.dto';
+import { CreateDataSubscriptionDto } from '@dtos/subscriptions.dto';
 import SubscriptionRoute from '@routes/subscriptions.route';
 import { config } from 'dotenv';
 
@@ -66,7 +66,7 @@ describe('Testing Subscriptions', () => {
 
   describe('[POST] /subscriptions', () => {
     it('response Create subscription', async () => {
-      const subscriptionData: SetSubscriptionDto = {
+      const subscriptionData: CreateDataSubscriptionDto = {
         subscription: 'Test subscription',
       };
 
@@ -94,7 +94,7 @@ describe('Testing Subscriptions', () => {
   describe('[PUT] /subscriptions/:id', () => {
     it('response Update subscription', async () => {
       const subscriptionId = 1;
-      const subscriptionData: SetSubscriptionDto = {
+      const subscriptionData: CreateDataSubscriptionDto = {
         subscription: 'Test subscription',
       };
 

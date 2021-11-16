@@ -1,5 +1,7 @@
 import { Sequelize, DataTypes, Model, Optional } from 'sequelize';
 import { Question } from '@interfaces/questions.interface';
+import { UserModel } from './users.model';
+import DB from '@/databases';
 
 export type QuestionCreationAttributes = Optional<Question, 'id' | 'question' | 'upVote' | 'downVote' | 'userId'>;
 
@@ -12,9 +14,30 @@ export class QuestionModel extends Model<Question, QuestionCreationAttributes> i
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
+
+  static associate(models) {
+    // define association here
+    // QuestionModel.belongsTo(UserModel, {
+    //   foreignKey: 'userId',
+    // });
+    // QuestionModel.belongsTo(UserModel, {
+    //   foreignKey: 'userId',
+    // });
+  }
 }
+// static associate(models) {
+//   // define association here
+//   Questions.belongsTo(models.Users, {
+//     foreignKey: 'userId',
+//   });
+// }
+// QuestionModel.belongsTo(UserModel, { foreignKey: 'userId'});
 
 export default function (sequelize: Sequelize): typeof QuestionModel {
+  // QuestionModel.belongsTo(sequelize.db, {}); //, { foreignKey: 'userId'})
+  //Ques
+  // QuestionModel.associate(DB.Users );
+  // QuestionModel.belongsTo(Sequelize.UserModel, {});
   QuestionModel.init(
     {
       id: {

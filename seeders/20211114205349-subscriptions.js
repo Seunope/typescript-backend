@@ -8,21 +8,21 @@ module.exports = {
         {
           userId: 1,
           questionId: 1,
-          isSubscribe: true,
+          isSubscribed: true,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           userId: 1,
           questionId: 2,
-          isSubscribe: false,
+          isSubscribed: false,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           userId: 2,
           questionId: 1,
-          isSubscribe: true,
+          isSubscribed: true,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -38,17 +38,17 @@ module.exports = {
       {
         userId: 1,
         questionId: 1,
-        isSubscribe: true,
+        isSubscribed: true,
       },
       {
         userId: 1,
         questionId: 2,
-        isSubscribe: false,
+        isSubscribed: false,
       },
       {
         userId: 2,
         questionId: 1,
-        isSubscribe: true,
+        isSubscribed: true,
       },
     );
   },

@@ -4,7 +4,7 @@
         "host": "127.0.0.1",
         "user": "root",
         "password": "",
-        "database": "korapay_test",
+        "database": "korapay",
         "pool": {
             "min": 0,
             "max": 5

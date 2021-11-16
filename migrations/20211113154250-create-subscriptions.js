@@ -24,8 +24,9 @@ module.exports = {
         },
         allowNull: false,
       },
-      isSubscribe: {
+      isSubscribed: {
         type: Sequelize.BOOLEAN,
+        default: false,
       },
       createdAt: {
         allowNull: false,

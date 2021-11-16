@@ -4,6 +4,7 @@ import { HttpException } from '@exceptions/HttpException';
 import { Question } from '@/interfaces/questions.interface';
 import { CreateSubscriptionDto, UpdateSubscriptionDto } from '@dtos/subscriptions.dto';
 import { Subscription } from '@interfaces/subscriptions.interface';
+import constants from '@/utils/constants';
 
 class SubscriptionService {
   public subscriptions = DB.Subscriptions;
@@ -15,7 +16,7 @@ class SubscriptionService {
   }
 
   public async findSubscriptionById(SubscriptionId: number): Promise<Subscription> {
-    if (isEmpty(SubscriptionId)) throw new HttpException(400, "You're not SubscriptionId");
+    if (isEmpty(SubscriptionId)) throw new HttpException(400, constants.EMPTY_ID);
 
     const findSubscription: Subscription = await this.subscriptions.findByPk(SubscriptionId);
     if (!findSubscription) throw new HttpException(409, "You're not Subscription");
@@ -24,7 +25,7 @@ class SubscriptionService {
   }
 
   public async createSubscription(SubscriptionData: CreateSubscriptionDto): Promise<Subscription> {
-    if (isEmpty(SubscriptionData)) throw new HttpException(400, 'Input wrong');
+    if (isEmpty(SubscriptionData)) throw new HttpException(400, constants.EMPTY_BODY);
 
     const findQuestion: Question = await this.question.findOne({ where: { id: SubscriptionData.questionId } });
     if (!findQuestion) throw new HttpException(409, `Question ID: " ${SubscriptionData.questionId}" is not found`);
@@ -39,10 +40,10 @@ class SubscriptionService {
   }
 
   public async updateSubscription(SubscriptionId: number, SubscriptionData: UpdateSubscriptionDto): Promise<Subscription> {
-    if (isEmpty(SubscriptionData)) throw new HttpException(400, 'Input wrong');
+    if (isEmpty(SubscriptionData)) throw new HttpException(400, constants.EMPTY_ID);
 
     const findSubscription: Subscription = await this.subscriptions.findByPk(SubscriptionId);
-    if (!findSubscription) throw new HttpException(409, "You're not Subscription");
+    if (!findSubscription) throw new HttpException(409, constants.NOT_FOUND);
 
     await this.subscriptions.update({ ...SubscriptionData }, { where: { id: SubscriptionId } });
 
@@ -51,10 +52,10 @@ class SubscriptionService {
   }
 
   public async deleteSubscription(SubscriptionId: number): Promise<Subscription> {
-    if (isEmpty(SubscriptionId)) throw new HttpException(400, 'Not SubscriptionId');
+    if (isEmpty(SubscriptionId)) throw new HttpException(400, constants.EMPTY_ID);
 
     const findSubscription: Subscription = await this.subscriptions.findByPk(SubscriptionId);
-    if (!findSubscription) throw new HttpException(409, 'Not Subscription');
+    if (!findSubscription) throw new HttpException(409, constants.NOT_FOUND);
 
     await this.subscriptions.destroy({ where: { id: SubscriptionId } });
 

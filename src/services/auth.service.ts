@@ -7,12 +7,13 @@ import { HttpException } from '@exceptions/HttpException';
 import { DataStoredInToken, TokenData } from '@interfaces/auth.interface';
 import { User } from '@interfaces/users.interface';
 import { isEmpty } from '@utils/util';
+import constants from '@/utils/constants';
 
 class AuthService {
   public users = DB.Users;
 
   public async signup(userData: CreateUserDto): Promise<User> {
-    if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
+    if (isEmpty(userData)) throw new HttpException(400, constants.EMPTY_BODY);
 
     const findUser: User = await this.users.findOne({ where: { email: userData.email } });
     if (findUser) throw new HttpException(409, `You're email ${userData.email} already exists`);
@@ -24,10 +25,10 @@ class AuthService {
   }
 
   public async login(userData: AuthUser): Promise<{ cookie: string; token: string; findUser: User }> {
-    if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
+    if (isEmpty(userData)) throw new HttpException(400, constants.EMPTY_BODY);
 
     const findUser: User = await this.users.findOne({ where: { email: userData.email } });
-    if (!findUser) throw new HttpException(409, `You're email ${userData.email} not found`);
+    if (!findUser) throw new HttpException(409, `User email ${userData.email} not found`);
 
     const isPasswordMatching: boolean = await bcrypt.compare(userData.password, findUser.password);
     if (!isPasswordMatching) throw new HttpException(409, "You're password not matching");

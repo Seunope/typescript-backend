@@ -14,6 +14,11 @@ export class NotificationModel extends Model<Notification, NotificationCreationA
 }
 
 export default function (sequelize: Sequelize): typeof NotificationModel {
+
+  // static associate (Model){
+
+  // }
+ 
   NotificationModel.init(
     {
       id: {

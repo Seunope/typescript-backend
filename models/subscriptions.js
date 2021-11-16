@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       questionId: DataTypes.INTEGER,
       userId: DataTypes.INTEGER,
-      isSubscribe: DataTypes.BOOLEAN,
+      isSubscribed: DataTypes.BOOLEAN,
     },
     {
       sequelize,
