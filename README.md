@@ -50,6 +50,8 @@ Go to http://localhost:3000/api-docs to view docs
 
  `npm run test`
 
+ **
+
  **For some weird reason**  you have to run `npm run test` twice before all test pass.
 ## Assumptions
 1. User has msql server install on computer
