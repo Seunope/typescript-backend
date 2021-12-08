@@ -1,4 +1,4 @@
-# be-ope-mesonrale
+# Question and Answer API
 
 # Requirement
 
@@ -14,11 +14,9 @@ notification when the question is answered)
 ***
 
 ## Database Setup
-Create DB called "Korapay" on PhpMyAdmin or another Mysql management software you have on your machine
+Create DB called "questionDb" on PhpMyAdmin or another Mysql management software you have on your machine
 
 ## Project Set up
-`git clone https://gitlab.com/korapay-assessment/be-ope-mesonrale.git`
-
 `npm i`
 
  In the root of the folder, convert the .env.sample to .env 
