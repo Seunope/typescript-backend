@@ -48,6 +48,8 @@ Go to http://localhost:3000/api-docs to view docs
 
  `npm run test`
 
+ **Error: expected 200 "OK", got 401 "Unauthorized"** This implies token was not correctly copied to the .env
+
  **For some weird reason**  you have to run `npm run test` twice before all test pass.
 ## Assumptions
 1. User has msql server install on computer
