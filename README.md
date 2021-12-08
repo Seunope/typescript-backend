@@ -1,4 +1,4 @@
-# Question and Answer API
+Typescript backend mini project
 
 # Requirement
 
